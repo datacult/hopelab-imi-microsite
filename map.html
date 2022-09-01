@@ -23,10 +23,11 @@
         async function init(){
             
             let data = await d3.csv('../data/map.csv', d3.autoType)
+            let data2 = await d3.csv('../data/testimonials.csv', d3.autoType)
 
-            let mapping = {name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng'}
+            let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Initials', pronouns:'Pronouns',quote:'quote'}
 
-            let map_vis = map(data, mapping)
+            let map_vis = map(data, data2, mapping)
         }
         init()
 

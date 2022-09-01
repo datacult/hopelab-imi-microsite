@@ -1,6 +1,6 @@
 'use strict'
 
-let map = ((data, data_map = {name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng'}, selector = '#map-placeholder') => {
+let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Initials', pronouns:'Pronouns',quote:'quote'}, selector = '#map-placeholder') => {
 
     ////////////////////////////////////
     //////////// svg setup /////////////
@@ -58,9 +58,9 @@ let map = ((data, data_map = {name:'Organization.Name', city:'City', state:'Stat
     //////////////scales////////////////
     ////////////////////////////////////
 
-    const indicatorColorScale = d3.scaleOrdinal()
-        .domain([data_map.y1,data_map.y2,data_map.y3])
-        .range(["#1268B3","#63C2A1","#C69530"])
+    const partnerColorScale = d3.scaleOrdinal()
+        .domain(["Youth Center","Science Advisor","Community Partner"])
+        .range(["#B1F1E2","#FFE599","#FBC28D"])
 
     // Map and projection
     var scl = 0.35, mult = 2
@@ -79,11 +79,11 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .join("path")
                 .attr('class','country')
                 .attr('id',d => d.properties.NAME.replace(" ", "-"))
-                .attr("fill", "lightblue")
+                .attr("fill", "#F3F3F8")
                 .attr("d", d3.geoPath()
                 .projection(projection)
                 )
-                .style("stroke", "#fafafa")
+                .style("stroke", "white")
                 .style('stroke-width',1.25)
                 .style('opacity',.8);
 
@@ -107,12 +107,58 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('cx', proj[0])
         .attr('cy', proj[1])
         .attr('r', 5)
-        .attr('fill', 'red');
+        // .attr('opacity',.8)
+        .attr('fill', partnerColorScale(loc[data_map.type]));
         
     });
 
+    var icon_group = svg.append('g').attr('id','icons')
 
-    document.getElementById('map-group').insertBefore(document.getElementById('states'), document.getElementById('circles'));
-    
+    data2.forEach(loc => {
+
+        var proj = projection([loc[data_map.long],loc[data_map.lat]])
+        var popup_group = icon_group.append('g').attr('class','popups').attr('id',loc[data_map.name]).attr('display','none')
+
+        // Add the path using this helper function
+        icon_group
+        .append('image')
+        .attr('href','assets/icon.svg')
+        .attr('x', proj[0])
+        .attr('y', proj[1])
+        .attr('height',20)
+        // .attr('opacity',.8);
+        .on("click", function() {
+				popup_group.attr('display',1)
+			});
+
+        popup_group
+        .append('rect')
+        .attr('x',200)
+        .attr('y',100)
+        .attr('height',200)
+        .attr('width',500)
+        .attr('fill','#F4F4FF')
+        .attr('rx',50)
+        .attr('stroke','black')
+
+        popup_group
+        .append('text')
+        .attr('x',width/2)
+        .attr('y',height/2)
+        .text(loc[data_map.quote])
+        .attr('text-anchor','middle')
+
+        popup_group
+        .append('text')
+        .attr('x',670)
+        .attr('y',140)
+        .text('X')
+        .attr('text-anchor','middle')
+        .on("click", function() {
+				popup_group.attr('display','none')
+			});
+
+        
+    });
 
 })
