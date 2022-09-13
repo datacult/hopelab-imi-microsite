@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <!-- Google fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+        <!-- <link href="./css/styles.css" rel="stylesheet"> -->
+    </head>
+    <body>  
+        <!-- <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" />
+            </marker>
+          </defs> -->
+        <select name="location" id="location_select">
+            <option value="All">Location</option>
+            <option value="California">California</option>
+            <option value="Illinois">Illinois</option>
+            <option value="New York">New York</option>
+            <option value="Florida">Florida</option>
+        </select>
+        <div id="usage-placeholder"></div>
+    </body>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="usage.js"></script>
+    <script>
+        async function init(){
+            
+            let data = await d3.csv('../data/usage.csv', d3.autoType)
+
+            var usage_select = document.getElementById("location_select");
+
+            // let mapping = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select: 'California'}
+            let mapping = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select: usage_select.value}
+
+            let usage_vis = usage(data, mapping)
+
+            usage_select.addEventListener("change", function() {
+                usage_vis.update(usage_select.value)
+            });
+        }
+        init()
+
+    </script>
+
+</html>
