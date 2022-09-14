@@ -154,8 +154,9 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
     ///////////////data/////////////////
     ////////////////////////////////////
     var height_data, petal_data, location_data, filtered
+
     function filter_data(loc) {
-     if (data_map.select != 'All') {
+     if (loc != 'All') {
         location_data = data.filter(d => d[data_map.state] == loc);
      } else {
         location_data = data
@@ -167,9 +168,6 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
     petal_data = d3.rollup(filtered, v => d3.mean(v, d => d[data_map.time]), d => d[data_map.x], d => d[data_map.section], d => d[data_map.content])
     
-    // return height_data, petal_data
-    console.log(height_data)
-    console.log(petal_data)
     }
 
     filter_data(data_map.select)
@@ -331,12 +329,10 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 function update(loc) {
     //filter data
     filter_data(loc)
-    console.log(loc)
-    console.log(height_data)
     
     tickLabels.forEach(guide =>{
         //resize stems
-        svg.select('stem-'+guide)
+        svg.select('#stem-'+guide)
         .attr('y1',yScale(height_data.get(guide)))
 
         //rescale petals
