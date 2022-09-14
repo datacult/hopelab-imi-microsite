@@ -153,18 +153,26 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
     ////////////////////////////////////
     ///////////////data/////////////////
     ////////////////////////////////////
-
+    var height_data, petal_data, location_data, filtered
+    function filter_data(loc) {
      if (data_map.select != 'All') {
-        data = data.filter(d => d[data_map.state] == data_map.select);
-     } 
+        location_data = data.filter(d => d[data_map.state] == loc);
+     } else {
+        location_data = data
+     }
 
-    var height_data = d3.rollup(data, v => d3.sum(v, d => d[data_map.y]), d => d[data_map.x])
+    height_data = d3.rollup(location_data, v => d3.sum(v, d => d[data_map.y]), d => d[data_map.x])
 
-    data = data.filter(d => d[data_map.section] !== null);
+    filtered = location_data.filter(d => d[data_map.section] !== null);
 
-    var petal_data = d3.rollup(data, v => d3.mean(v, d => d[data_map.time]), d => d[data_map.x], d => d[data_map.section], d => d[data_map.content])
+    petal_data = d3.rollup(filtered, v => d3.mean(v, d => d[data_map.time]), d => d[data_map.x], d => d[data_map.section], d => d[data_map.content])
+    
+    // return height_data, petal_data
+    console.log(height_data)
+    console.log(petal_data)
+    }
 
-    // console.log(petal_data)
+    filter_data(data_map.select)
     var sections = ["Support","Explore","Affirm"]
 
     ////////////////////////////////////
@@ -184,9 +192,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
         .attr('stroke','#2A353C')
         .style("stroke-dasharray", ("3, 3"));
 
-        // console.log(petal_data.get(guide))
         sections.forEach(section => {
-            // console.log(petal_data.get(guide).get(section))
             var section_group = guide_group.append('g').attr('class','section').attr('id',section+'-'+guide)
 
             var section_data = petal_data.get(guide).get(section)
@@ -199,44 +205,37 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             var x_translate = 0
             var y_translate = 0, shift = 4
 
-            if (section == "Support" & section_data.size == 4) {
-
-                var content = content_it.next().value
+            function draw_petals(content, x, y, rotate) {
                 var time = section_data.get(content)
 
                 section_group
                     .append('path')
+                    .attr('id',guide+section+content)
                     .attr('d',petal)
                     .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+x_translate+' '+y_translate+') rotate(0) scale('+petalScale(time)+')')
+                    .attr('transform','translate('+x+' '+y+') rotate('+rotate+') scale('+petalScale(time)+')')
+
+            }
+
+            // function scale_petals(time){
+            //     var scl = 'scale('+petalScale(time)+')'
+            //     document.getElementById(guide+section+content).transform += scl
+            // }
+
+            if (section == "Support" & section_data.size == 4) {
+
+                var content = content_it.next().value
+                draw_petals(content,x_translate, y_translate,0)
 
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate-shift, y_translate,90)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate-shift)+' '+y_translate+') rotate(90) scale('+petalScale(time)+')')
-    
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate-shift, y_translate-shift,180)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate-shift)+' '+(y_translate-shift)+') rotate(180) scale('+petalScale(time)+')')
-    
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate, y_translate-shift,270)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+x_translate+' '+(y_translate-shift)+') rotate(270) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
@@ -244,32 +243,14 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Support" & section_data.size == 3) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate+shift)+' '+(y_translate-shift/2)+') rotate(250) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate+shift, y_translate-shift/2,250)
 
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate+shift, y_translate+shift/2,10)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate+shift)+' '+(y_translate+shift/2)+') rotate(10) scale('+petalScale(time)+')')
-    
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate, y_translate,130)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate)+') rotate(130) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
@@ -277,23 +258,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Support" & section_data.size == 2) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate)+') rotate(90) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate, y_translate,90)
 
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate, y_translate-shift,180)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate-shift)+') rotate(180) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
@@ -301,33 +270,14 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Explore" & section_data.size == 3) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate-shift)+' '+(y_translate)+') rotate(120) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate-shift, y_translate,120)
 
                 content = content_it.next().value
-                time = section_data.get(content)
-                console.log(time)
+                draw_petals(content,x_translate, y_translate-shift,240)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate-shift)+') rotate(240) scale('+petalScale(time)+')')
-    
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate, y_translate,0)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate)+') rotate(0) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
@@ -335,23 +285,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Explore" & section_data.size == 2) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate-shift/2)+' '+(y_translate)+') rotate(210) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate-shift/2, y_translate,210)
 
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate+shift/2, y_translate,300)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate+shift/2)+' '+(y_translate)+') rotate(300) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group+10)+' '+(y_group-5)+')')
@@ -359,23 +297,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Affirm" & section_data.size == 2) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate)+') rotate(0) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate, y_translate,0)
 
                 content = content_it.next().value
-                time = section_data.get(content)
+                draw_petals(content,x_translate, y_translate-shift,270)
 
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate-shift)+') rotate(270) scale('+petalScale(time)+')')
-    
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
                 section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
@@ -384,13 +310,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             } else if (section == "Affirm" & section_data.size == 1) {
 
                 var content = content_it.next().value
-                var time = section_data.get(content)
-
-                section_group
-                    .append('path')
-                    .attr('d',petal)
-                    .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+(x_translate)+' '+(y_translate)+') rotate(10) scale('+petalScale(time)+')')
+                draw_petals(content,x_translate, y_translate,10)
 
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
@@ -398,11 +318,59 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
     
             }
 
+
+            // console.log(document.getElementById(guide+section+content).transform)
+            // scale_petals(83)
+
         })
         
 
     })
 
 
+function update(loc) {
+    //filter data
+    filter_data(loc)
+    console.log(loc)
+    console.log(height_data)
+    
+    tickLabels.forEach(guide =>{
+        //resize stems
+        svg.select('stem-'+guide)
+        .attr('y1',yScale(height_data.get(guide)))
+
+        //rescale petals
+        sections.forEach(section =>{
+            var section_data = petal_data.get(guide).get(section)
+
+            //pull array of keys
+            var content_keys = []
+            //loop through keys
+            content_keys.forEach(content =>{
+                // scale_petals(section_data.get(content))
+            })
+
+            //reposition groups
+            var group_dim = document.getElementById(section+'-'+guide).getBBox();
+            var section_group = d3.select(section+'-'+guide)
+            var x_group = xScale(axisScale(guide))
+            var y_group = (yScale(height_data.get(guide)))
+
+            if (section == 'Support'){
+                section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
+            } else if (section == 'Explore'){
+                section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
+            } else {
+                section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
+            }
+        })
+        
+
+    })
+}
+
+return {
+    update: update,
+}
 
 })
