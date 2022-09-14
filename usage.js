@@ -215,10 +215,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
             }
 
-            // function scale_petals(time){
-            //     var scl = 'scale('+petalScale(time)+')'
-            //     document.getElementById(guide+section+content).transform += scl
-            // }
+            
 
             if (section == "Support" & section_data.size == 4) {
 
@@ -318,6 +315,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
 
             // console.log(document.getElementById(guide+section+content).transform)
+            // var base_val = document.getElementById(guide+section+content).transform
+            // console.log(base_val.baseVal.getItem(0))
             // scale_petals(83)
 
         })
@@ -325,10 +324,33 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
     })
 
+    function scale_petals(guide, section, content, section_data){
+        var time = section_data.get(content)
+        var scl = petalScale(time)
+
+        const svgroot = document.getElementById("usage-group").parentNode;
+
+        // SVGTransformList of the element that has been clicked on
+        const tfmList = document.getElementById(guide+section+content).transform.baseVal;
+
+        // Create a separate transform object for each transform
+        const scale = svgroot.createSVGTransform();
+        scale.setScale(scl,scl);
+
+        tfmList.removeItem(2);
+        tfmList.appendItem(scale);
+    }
+
+
+
 
 function update(loc) {
     //filter data
     filter_data(loc)
+
+    yScale
+            .domain([0,Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5])
+            .range([height,0])
     
     tickLabels.forEach(guide =>{
         //resize stems
@@ -340,15 +362,15 @@ function update(loc) {
             var section_data = petal_data.get(guide).get(section)
 
             //pull array of keys
-            var content_keys = []
+            var content_keys = [ ...section_data.keys() ]
             //loop through keys
             content_keys.forEach(content =>{
-                // scale_petals(section_data.get(content))
+                scale_petals(guide,section,content,section_data)
             })
-
+            
             //reposition groups
             var group_dim = document.getElementById(section+'-'+guide).getBBox();
-            var section_group = d3.select(section+'-'+guide)
+            var section_group = d3.select('#'+section+'-'+guide)
             var x_group = xScale(axisScale(guide))
             var y_group = (yScale(height_data.get(guide)))
 
