@@ -22,8 +22,8 @@
     <script>
         async function init(){
             
-            let data = await d3.csv('../data/map.csv', d3.autoType)
-            let data2 = await d3.csv('../data/testimonials.csv', d3.autoType)
+            let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/map.csv', d3.autoType)
+            let data2 = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/testimonials.csv', d3.autoType)
 
             let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Initials', pronouns:'Pronouns',quote:'quote'}
 

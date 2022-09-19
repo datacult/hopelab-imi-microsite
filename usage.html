@@ -40,7 +40,8 @@
     <script>
         async function init(){
             
-            let data = await d3.csv('../data/usage.csv', d3.autoType)
+            // let data = await d3.csv('../data/usage.csv', d3.autoType)
+            let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/usage.csv', d3.autoType)
 
             var usage_select = document.getElementById("location_select");
 

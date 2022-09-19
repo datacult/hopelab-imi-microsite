@@ -52,7 +52,7 @@
     <script>
         async function init(){
             
-            let data = await d3.csv('../data/study.csv', d3.autoType)
+            let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/study.csv', d3.autoType)
 
             let mapping = {topic:'Topic', left:'Left', right:'Right', min:'Min', max:'Max'}
 
