@@ -417,17 +417,10 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             }
         }
 
-        // var hover_y = document.getElementById(guide).getBBox().height-height
-        var hover_y = y_group - 150
-
-        console.log(document.getElementById(guide).getBBox())
-
-        console.log(guide+':'+hover_y+' '+height)
+        var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -100
 
         sections.forEach(section => {
             var label = labels.get(guide).get(section).keys()
-
-            // console.log(y+' '+guide)
 
             build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',x_group,
             hover_y,18,'4%')
@@ -487,6 +480,9 @@ function update(loc) {
         svg.select('#stem-'+guide)
         .attr('y1',yScale(height_data.get(guide)))
 
+        var x_group = xScale(axisScale(guide))
+        var y_group = (yScale(height_data.get(guide)))
+
         //rescale petals
         sections.forEach(section =>{
             var section_data = petal_data.get(guide).get(section)
@@ -503,8 +499,6 @@ function update(loc) {
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
                 var section_group = d3.select('#'+section+'-'+guide)
                 var section_circ = d3.select('#'+section+'-'+guide+'-circle')
-                var x_group = xScale(axisScale(guide))
-                var y_group = (yScale(height_data.get(guide)))
 
                 if (section == 'Support'){
                     section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
@@ -516,9 +510,17 @@ function update(loc) {
 
                 section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
            
-            }, 1000);
+                }, 1000);
         })
-        
+
+
+    sections.forEach(section =>{
+        d3.select("#"+section+'-'+guide+'-name').attr('y',y_group - document.getElementById('Explore-'+guide).getBBox().height -100)
+        var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 10;
+    
+        d3.select("#"+section+'-'+guide+'-rect')
+                .attr('y',rect_size.y-padding);
+    })
 
     })
 }
