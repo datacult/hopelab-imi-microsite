@@ -1,6 +1,6 @@
 'use strict'
 
-let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select:'All'}, selector = '#usage-placeholder') => {
+let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'name',content:'content', state:'state', time:'avg_time', select:'All'}, selector = '#usage-placeholder') => {
 
     ////////////////////////////////////
     //////////// svg setup /////////////
@@ -64,8 +64,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
     // .domain(d3.extent(data, d => d[data_map.x]))
 
     const yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0,10000])
+        .range([height, 0]); 
 
     const contentColorScale = d3.scaleOrdinal()
         .domain(["Learn","Resource","Community","Activity"])
@@ -105,6 +104,33 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
         .attr('x2',width)
         .attr('stroke','#2A353C');
 
+        const g = svg.append("g");
+
+        function draw(max_val){
+
+            var val = Math.ceil(max_val / 100) * 100
+
+            yScale
+                .domain([0,val])
+    
+            const yAxis = d3.axisLeft(yScale).tickSize(0).ticks(1).tickValues([val]);
+
+            g
+                .attr("class", 'axis')
+                .attr("id", "y-axis")
+                .attr("transform", `translate(-10,0)`)
+                .transition().duration(1000)
+                .call(yAxis);
+        
+            svg.selectAll('#y-axis .domain')
+                .attr('stroke','none');
+    
+    
+        svg.selectAll('#y-axis').style('font-family','Quicksand')
+        .style('font-size',18)
+        } 
+
+
     svg.append("defs")
         .append("marker")
         .attr("id", "arrow")
@@ -131,7 +157,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
         .append("line")
         .attr('id','y-line')
         .attr('y1',height/3)
-        .attr('y2',0)
+        .attr('y2',20)
         .attr('x1',0)
         .attr('x2',0)
         .attr('stroke','#2A353C')
@@ -145,15 +171,17 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
         .attr('text-anchor','middle')
         .attr('transform','rotate(-90)')
         .text('Guide Views')
-        .style('font-family','Montserrat')
+        .style('font-family','Quicksand')
+        .style('font-size',18)
 
-    svg.selectAll('.axis').style('font-family','Montserrat')
+        svg.selectAll('#x-axis').style('font-family','Quicksand')
+        .style('font-size',24).style('font-weight',700)
 
     
     ////////////////////////////////////
     ///////////////data/////////////////
     ////////////////////////////////////
-    var height_data, petal_data, location_data, filtered
+    var height_data, petal_data, location_data, filtered,labels
 
     function filter_data(loc) {
      if (loc != 'All') {
@@ -168,6 +196,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
     petal_data = d3.rollup(filtered, v => d3.mean(v, d => d[data_map.time]), d => d[data_map.x], d => d[data_map.section], d => d[data_map.content])
     
+    labels = d3.group(filtered,d => d[data_map.x],d=>d[data_map.section],d=>d[data_map.name])
     }
 
     filter_data(data_map.select)
@@ -176,6 +205,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
     ////////////////////////////////////
     ///////////////draw/////////////////
     ////////////////////////////////////
+    draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
+
     tickLabels.forEach(guide => {
 
         var guide_group = svg.append('g').attr('class','guide').attr('id',guide)
@@ -190,16 +221,39 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
         .attr('stroke','#2A353C')
         .style("stroke-dasharray", ("3, 3"));
 
+        var x_group = xScale(axisScale(guide))
+        var y_group = (yScale(height_data.get(guide)))
+
         sections.forEach(section => {
+            
             var section_group = guide_group.append('g').attr('class','section').attr('id',section+'-'+guide)
+                    
+
+            var section_circ = section_group.append('circle').attr('class','section-circle').attr('id',section+'-'+guide+'-circle')
+                                .attr('fill','#F6F6FA').attr('opacity',.8).attr('r',0)
+
+            section_group.on("mouseover", function() {
+                document.getElementById(guide).insertBefore(document.getElementById('Affirm-'+guide), document.getElementById(section+'-'+guide));
+                
+                var circ_dim = document.getElementById(section+'-'+guide).getBBox()
+                section_circ.attr('r',get_radius(circ_dim.height,circ_dim.width))
+                d3.select('#'+section+'-'+guide+'-name').attr('opacity',1)
+                d3.select('#'+section+'-'+guide+'-rect').attr('opacity',0.8)
+                
+            }).on("mouseout", function() {
+                document.getElementById(guide).insertBefore(document.getElementById(section+'-'+guide), document.getElementById('Affirm-'+guide));
+    
+                section_circ.attr('r',0)
+                d3.select('#'+section+'-'+guide+'-name').attr('opacity',0)
+                d3.select('#'+section+'-'+guide+'-rect').attr('opacity',0)
+                
+            });
 
             var section_data = petal_data.get(guide).get(section)
 
             var petal = "M65.4039 68.1416C39.8542 80.0385 14.9126 35.798 7.37112 25.2399C-0.170365 14.6818 -0.656252 4.26608 1.83786 1.75831C4.33197 -0.74946 8.62714 -0.642957 16.7314 4.32482C24.8357 9.2926 93.8178 54.9109 65.4039 68.1416Z"
 
             var content_it = section_data.keys()
-            var x_group = xScale(axisScale(guide))
-            var y_group = (yScale(height_data.get(guide)))
             var x_translate = 0
             var y_translate = 0, shift = 4
 
@@ -215,7 +269,10 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
             }
 
-            
+            function get_radius(ht,wd){
+                return Math.sqrt(ht*ht+wd*wd)/2+5
+            }
+
 
             if (section == "Support" & section_data.size == 4) {
 
@@ -232,9 +289,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
                 draw_petals(content,x_translate, y_translate-shift,270)
 
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
+                // console.log(group_dim)
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Support" & section_data.size == 3) {
 
                 var content = content_it.next().value
@@ -250,6 +309,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Support" & section_data.size == 2) {
 
                 var content = content_it.next().value
@@ -262,6 +322,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Explore" & section_data.size == 3) {
 
                 var content = content_it.next().value
@@ -277,6 +338,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
                 section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Explore" & section_data.size == 2) {
 
                 var content = content_it.next().value
@@ -289,6 +351,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
                 section_group.attr('transform','translate('+(x_group+10)+' '+(y_group-5)+')')
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Affirm" & section_data.size == 2) {
 
                 var content = content_it.next().value
@@ -302,6 +365,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
                 section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
 
 
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Affirm" & section_data.size == 1) {
 
                 var content = content_it.next().value
@@ -311,7 +375,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
 
                 section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
     
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             }
+
+            
+
 
 
             // console.log(document.getElementById(guide+section+content).transform)
@@ -319,6 +387,66 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', content:
             // console.log(base_val.baseVal.getItem(0))
             // scale_petals(83)
 
+        })
+
+        function build_paragraph(text,limit,target_id,text_id,x,y,font_size,line_height){
+            var words = text.split(' ')
+            var lines = Math.round(words.length/limit)+1
+            var target = d3.select('#'+target_id)
+                .append('text')
+                .attr('class','p-text')
+                .attr('id',text_id)
+                .attr('text-anchor','middle')
+                .attr('font-family','Quicksand')
+                .attr('opacity',0)
+                .attr('x',x)
+                .attr('y',y)
+                .attr('font-size',font_size)
+
+            for (let i = 0; i < lines; i++){
+
+                if (words.length > 0){
+                var line_txt = words.splice(0,limit)
+                target.append('tspan')
+                .attr('class','p-tspan')
+                .attr('x',x)
+                .attr('dy',line_height)
+                .text(line_txt.join(' '))
+                }
+
+            }
+        }
+
+        // var hover_y = document.getElementById(guide).getBBox().height-height
+        var hover_y = y_group - 150
+
+        console.log(document.getElementById(guide).getBBox())
+
+        console.log(guide+':'+hover_y+' '+height)
+
+        sections.forEach(section => {
+            var label = labels.get(guide).get(section).keys()
+
+            // console.log(y+' '+guide)
+
+            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',x_group,
+            hover_y,18,'4%')
+            
+            var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 10;
+    
+            guide_group.append('rect')
+                .attr('class','p-rect')
+                .attr('id',section+'-'+guide+'-rect')
+                .attr('x',rect_size.x-padding)
+                .attr('y',rect_size.y-padding)
+                .attr('height',rect_size.height+padding*2)
+                .attr('width',rect_size.width+padding*2)
+                .style('fill','#F6F6FA')
+                .attr('opacity',0)
+                .attr('rx',15);
+
+            document.getElementById(guide).insertBefore(document.getElementById(section+'-'+guide+'-rect'), document.getElementById(section+'-'+guide+'-name'));
+    
         })
         
 
@@ -348,9 +476,11 @@ function update(loc) {
     //filter data
     filter_data(loc)
 
-    yScale
-            .domain([0,Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5])
-            .range([height,0])
+    // yScale
+    //         .domain([0,Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5])
+    //         .range([height,0])
+
+    draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
     
     tickLabels.forEach(guide =>{
         //resize stems
@@ -368,19 +498,25 @@ function update(loc) {
                 scale_petals(guide,section,content,section_data)
             })
             
-            //reposition groups
-            var group_dim = document.getElementById(section+'-'+guide).getBBox();
-            var section_group = d3.select('#'+section+'-'+guide)
-            var x_group = xScale(axisScale(guide))
-            var y_group = (yScale(height_data.get(guide)))
+            setTimeout(function(){ 
+                //reposition groups
+                var group_dim = document.getElementById(section+'-'+guide).getBBox();
+                var section_group = d3.select('#'+section+'-'+guide)
+                var section_circ = d3.select('#'+section+'-'+guide+'-circle')
+                var x_group = xScale(axisScale(guide))
+                var y_group = (yScale(height_data.get(guide)))
 
-            if (section == 'Support'){
-                section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
-            } else if (section == 'Explore'){
-                section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
-            } else {
-                section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
-            }
+                if (section == 'Support'){
+                    section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
+                } else if (section == 'Explore'){
+                    section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
+                } else {
+                    section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
+                }
+
+                section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
+           
+            }, 1000);
         })
         
 

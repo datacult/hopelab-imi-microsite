@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
         <!-- Google fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
         <!-- <link href="./css/styles.css" rel="stylesheet"> -->
         <style>
 
-            path, g, line {
+            path, g, line, circle, text,rect {
                 transition: all 1s ease-in-out;
             }
         </style>
@@ -45,7 +45,7 @@
             var usage_select = document.getElementById("location_select");
 
             // let mapping = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select: 'California'}
-            let mapping = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select: usage_select.value}
+            let mapping = {x:'page', y:'views', section:'section', name:'name', content:'content', state:'state', time:'avg_time', select: usage_select.value}
 
             let usage_vis = usage(data, mapping)
 

@@ -13,14 +13,14 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
     
     // margins for SVG
     var margin = {
-        left: 210,
-        right: 210,
-        top: 100,
-        bottom: 100
+        left: 20,
+        right: 20,
+        top: 10,
+        bottom: 10
     }
 
     // responsive width & height
-    var svgWidth = 1400//parseInt(d3.select(selector).style('width'), 10)
+    var svgWidth = 600//parseInt(d3.select(selector).style('width'), 10)
     var svgHeight = (svgWidth / 2)
     } else {
        // margins for SVG
@@ -138,7 +138,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
             // .attr('x',width/3)
             // .attr('y',200)
             // .attr('r',topicScale(topic[data_map.left]))
-            .attr('fill','purple')
+            .attr('fill','#7638FB')
 
         svg.append('path')
             .attr('id','right')
@@ -146,12 +146,28 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
             // .attr('x',width*2/3)
             // .attr('y',200)
             // .attr('transform','scale('+topicScale(topic[data_map.right])+')')
-            .attr('fill','gray')
+            .attr('fill','#D9D9D9')
+
+        var topic = data[0]
+
+        const topicScale = d3.scaleLinear()
+                    .domain([topic[data_map.min],topic[data_map.max]])
+                    .range([0,1])
+
+        
+        var left_loc = document.getElementById('left').getBBox();
+        var right_loc = document.getElementById('right').getBBox();
+        var left_scl = topicScale(topic[data_map.left]);
+        var right_scl = topicScale(topic[data_map.right]);
+
+        svg.selectAll('#left').attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+        svg.selectAll('#right').attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+
         
     // });
 
     //text
-    var font_size = 20, x_text = width/2, line_height = '4%';
+    var font_size = 20, x_text = width/2, line_height = '8%';
 
     let study1 =  svg.append('text')
         .attr('class','step1')
@@ -159,13 +175,24 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('x',x_text)
         .attr('y',50)
         .attr('font-size',font_size)
-        .style('opacity',0)
+        .style('opacity',1)
 
     study1
         .append('tspan')
         .attr('class','tspan')
         .attr('x',x_text)
-        .text('The treatment group saw a significant')
+        .text('The ')
+        .append('tspan')
+        .text('imi users')
+        .attr('font-weight',700)
+        .attr('fill','#7638FB')
+        .append('tspan')
+        .text(' saw a ')
+        .attr('font-weight',400)
+        .attr('fill','black')
+        .append('tspan')
+        .text('significant')
+        .attr('font-weight',700)
 
     study1
         .append('tspan')
@@ -193,7 +220,15 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','tspan')
         .attr('x',x_text)
         .attr('dy',line_height)
-        .text('by imi users was 4.7 times longer')
+        .text('by ')
+        .append('tspan')
+        .text('imi users')
+        .attr('font-weight',700)
+        .attr('fill','#7638FB')
+        .append('tspan')
+        .text(' was 4.7 times longer')
+        .attr('font-weight',400)
+        .attr('fill','black')
     
     study2
         .append('tspan')
@@ -251,20 +286,23 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
         if (stp == 1) {
 
-            var topic = data[0]
+            topic = data[0]
 
-            const topicScale = d3.scaleLinear()
-                        .domain([topic[data_map.min],topic[data_map.max]])
-                        .range([0,1.5])
+            topicScale
+                .domain([topic[data_map.min],topic[data_map.max]])
+                .range([0,1])
+                // .range([0,10])
 
             
-            var left_loc = document.getElementById('left').getBBox();
-            var right_loc = document.getElementById('right').getBBox();
-            var left_scl = topicScale(topic[data_map.left]);
-            var right_scl = topicScale(topic[data_map.right]);
+            left_loc = document.getElementById('left').getBBox();
+            right_loc = document.getElementById('right').getBBox();
+            left_scl = topicScale(topic[data_map.left]);
+            right_scl = topicScale(topic[data_map.right]);
 
-            svg.selectAll('#left').attr('transform','translate('+(width/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
-            svg.selectAll('#right').attr('transform','translate('+(width*2/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+            svg.selectAll('#left').attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+                .attr('fill','#7638FB')
+            svg.selectAll('#right').attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+                .attr('fill','#D9D9D9')
 
             study1.style('opacity',1)
             study2.style('opacity',0)
@@ -275,20 +313,21 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
         } else if (stp == 2){
 
-            var topic = data[1]
+            topic = data[1]
 
-            const topicScale = d3.scaleLinear()
-                        .domain([topic[data_map.min],topic[data_map.max]])
-                        .range([0,1])
+            topicScale
+                .domain([topic[data_map.min],topic[data_map.max]])
+                .range([0,1])
 
-            var left_loc = document.getElementById('left').getBBox();
-            var right_loc = document.getElementById('right').getBBox();
-            var left_scl = topicScale(topic[data_map.left]);
-            var right_scl = topicScale(topic[data_map.right]);
+            left_loc = document.getElementById('left').getBBox();
+            right_loc = document.getElementById('right').getBBox();
+            left_scl = topicScale(topic[data_map.left]);
+            right_scl = topicScale(topic[data_map.right]);
 
-            svg.selectAll('#left').attr('transform','translate('+(width/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
-            svg.selectAll('#right').attr('transform','translate('+(width*2/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
-            
+            svg.selectAll('#left').attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+                .attr('fill','#7638FB')
+            svg.selectAll('#right').attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+                .attr('fill','#D9D9D9')
             
             study1.style('opacity',0)
             study2.style('opacity',1)
@@ -297,20 +336,22 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
         } else if (stp == 3){
 
-            var topic = data[2]
+            topic = data[2]
 
-            const topicScale = d3.scaleLinear()
-                        .domain([topic[data_map.min],topic[data_map.max]])
-                        .range([0,1])
+            topicScale
+                .domain([topic[data_map.min],topic[data_map.max]])
+                .range([0,1])
 
-            var left_loc = document.getElementById('left').getBBox();
-            var right_loc = document.getElementById('right').getBBox();
-            var left_scl = topicScale(topic[data_map.left]);
-            var right_scl = topicScale(topic[data_map.right]);
+            left_loc = document.getElementById('left').getBBox();
+            right_loc = document.getElementById('right').getBBox();
+            left_scl = topicScale(topic[data_map.left]);
+            right_scl = topicScale(topic[data_map.right]);
 
-            svg.selectAll('#left').attr('transform','translate('+(width/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
-            svg.selectAll('#right').attr('transform','translate('+(width*2/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
-            
+            svg.selectAll('#left').attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+                .attr('fill','#52E0BE')
+            svg.selectAll('#right').attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+                .attr('fill','#D9D9D9')
+
             study1.style('opacity',0)
             study2.style('opacity',0)
             study3.style('opacity',1)
@@ -318,20 +359,22 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
         } else {
 
-            var topic = data[3]
+            topic = data[3]
 
-            const topicScale = d3.scaleLinear()
-                        .domain([topic[data_map.min],topic[data_map.max]])
-                        .range([0,1])
+            topicScale
+                .domain([topic[data_map.min],topic[data_map.max]])
+                .range([0,1])
 
-            var left_loc = document.getElementById('left').getBBox();
-            var right_loc = document.getElementById('right').getBBox();
-            var left_scl = topicScale(topic[data_map.left]);
-            var right_scl = topicScale(topic[data_map.right]);
+            left_loc = document.getElementById('left').getBBox();
+            right_loc = document.getElementById('right').getBBox();
+            left_scl = topicScale(topic[data_map.left]);
+            right_scl = topicScale(topic[data_map.right]);
 
-            svg.selectAll('#left').attr('transform','translate('+(width/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
-            svg.selectAll('#right').attr('transform','translate('+(width*2/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
-            
+            svg.selectAll('#left').attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+                .attr('fill','#52E0BE')
+            svg.selectAll('#right').attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+                .attr('fill','#D9D9D9')
+
             study1.style('opacity',0)
             study2.style('opacity',0)
             study3.style('opacity',0)
