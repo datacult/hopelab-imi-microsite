@@ -41,6 +41,10 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
     const height = svgHeight - margin.top - margin.bottom
     const width = svgWidth - margin.left - margin.right
 
+    // add div
+    const popup = body.append('div')
+        .attr('id','popup-group');
+
     // add SVG
     d3.select(".map-svg").remove();
 
@@ -52,8 +56,6 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
         .append('g')
         .attr('id','map-group')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    const popup = body.append('div')
-        .attr('id','popup-group')
 
 
     ////////////////////////////////////
@@ -160,7 +162,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('width',icon_size*.863)
         .attr('cursor','pointer')
         .on("click", function() {
-				popup_group.style('opacity',1)
+				popup_group.style('display','block')
 			});
 
         var icon_loc = document.getElementById('testimonial'+loc[data_map.state]+i).getBBox();
@@ -170,7 +172,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .attr('y',proj[1]-icon_loc.height/1);
 
 
-            var popup_group = popup.append('div').attr('class','popups').attr('id',loc[data_map.name]).style('opacity',0)
+            var popup_group = popup.append('div').attr('class','popups').attr('id',loc[data_map.name]).style('display','none')
             .style('padding','3%')
             .style('background-color','#F4F4FF')
             .style('border-radius','50px')
@@ -218,7 +220,8 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .style('height',15)
             .style('cursor','pointer')
             .on("click", function() {
-                    popup_group.style('opacity',0)
+                    popup_group.style('display','none')
+                    // console.log('close')
                 });
 
         
