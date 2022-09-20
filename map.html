@@ -53,7 +53,7 @@
             let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/map.csv', d3.autoType)
             let data2 = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/testimonials.csv', d3.autoType)
 
-            let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Initials', pronouns:'Pronouns',quote:'quote'}
+            let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns',location:'State',video:'video',quote:'quote',source:'source'}
 
             let map_vis = map(data, data2, mapping)
         }

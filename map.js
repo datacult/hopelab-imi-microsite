@@ -1,6 +1,6 @@
 'use strict'
 
-let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Initials', pronouns:'Pronouns',quote:'quote'}, selector = '#map-placeholder') => {
+let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns',location:'State',video:'video',quote:'quote',source:'source'}, selector = '#map-placeholder') => {
 
     ////////////////////////////////////
     //////////// svg setup /////////////
@@ -144,7 +144,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
 
     var icon_group = svg.append('g').attr('id','icons')
 
-    data2.forEach(loc => {
+    data2.forEach(function(loc,i) {
 
         var proj = projection([loc[data_map.long],loc[data_map.lat]])
         
@@ -153,7 +153,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .append('image')
         .attr('href','assets/Testimonial.svg')
         .attr('class',loc[data_map.state])
-        .attr('id','testimonial'+loc[data_map.state])
+        .attr('id','testimonial'+loc[data_map.state]+i)
         .attr('x', proj[0])
         .attr('y', proj[1])
         .attr('height',icon_size)
@@ -163,9 +163,9 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
 				popup_group.attr('display',1)
 			});
 
-        var icon_loc = document.getElementById('testimonial'+loc[data_map.state]).getBBox();
+        var icon_loc = document.getElementById('testimonial'+loc[data_map.state]+i).getBBox();
         
-        d3.select('#testimonial'+loc[data_map.state])
+        d3.select('#testimonial'+loc[data_map.state]+i)
             .attr('x',proj[0]-icon_loc.width/4)
             .attr('y',proj[1]-icon_loc.height/1.3);
 
