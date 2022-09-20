@@ -52,6 +52,8 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
         .append('g')
         .attr('id','map-group')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    const popup = body.append('div')
+        .attr('id','popup-group')
 
 
     ////////////////////////////////////
@@ -167,44 +169,118 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .attr('x',proj[0]-icon_loc.width/4)
             .attr('y',proj[1]-icon_loc.height/1.3);
 
-        var popup_group = icon_group.append('g').attr('class','popups').attr('id',loc[data_map.name]).attr('display','none')
-        var rect_width = 500, rect_height = 200
+        // var popup_group = icon_group.append('g').attr('class','popups').attr('id',loc[data_map.name]).attr('display','none')
+        // var rect_width = 500, rect_height = 200
 
-        popup_group
-        .append('rect')
-        .attr('x',width/2-rect_width/2)
-        .attr('y',height/2-rect_height/2)
-        .attr('height',rect_height)
-        .attr('width',rect_width)
-        .attr('fill','#F4F4FF')
-        .attr('rx',50)
-        .attr('stroke','white')
-        .attr('stroke-width',5)
+        // popup_group
+        // .append('rect')
+        // .attr('x',width/2-rect_width/2)
+        // .attr('y',height/2-rect_height/2)
+        // .attr('height',rect_height)
+        // .attr('width',rect_width)
+        // .attr('fill','#F4F4FF')
+        // .attr('rx',50)
+        // .attr('stroke','white')
+        // .attr('stroke-width',5)
 
-        popup_group
-        .append('video')
-        .attr('controls')
-        .append('source')
-        .attr('src','https://datacult.github.io/hopelab-imi-microsite/assets/Atziri.mp4')
-        .attr('type','video/mp4')
+        
+        // d3.select('#map-placeholder')
+        // // popup_group
+        // // .append('foreignObject')
+        // // .attr('width',200)
+        // .append('div')
+        // .attr('class','video-container')
+        // .attr('id',loc[data_map.name]+'-vidcontainer')
+        // // .attr('position','absolute')
+        // // .attr('top',height/2-(height/8))
+        // // .attr('left',width/2)
+        // .append('video')
+        // .attr('id',loc[data_map.name]+'-video')
+        // .attr('height','400vh')
+        // .attr('controls','')
+        // .append('source')
+        // .attr('src','https://datacult.github.io/hopelab-imi-microsite/assets/Atziri.mp4')
+        // .attr('type','video/mp4')
 
-        popup_group
-        .append('text')
-        .attr('x',width/2)
-        .attr('y',height/2)
-        .text(loc[data_map.quote])
-        .attr('text-anchor','middle')
+        // // var vid = document.getElementById(loc[data_map.name]+'-video').getBBox()
 
-        popup_group
-        .append('image')
-        .attr('href','assets/x.svg')
-        .attr('x',width/2+rect_width/2-40)
-        .attr('y',height/2-rect_height/2+25)
-        .attr('height',15)
-        .attr('cursor','pointer')
-        .on("click", function() {
-				popup_group.attr('display','none')
-			});
+        // // d3.select(loc[data_map.name]+'-vidcontainer')
+        // // .attr('left',width/2-vid.width/2)
+
+        // popup_group
+        // .append('text')
+        // .attr('x',width/2)
+        // .attr('y',height/2)
+        // .text(loc[data_map.quote])
+        // .attr('text-anchor','middle')
+
+        // popup_group
+        // .append('image')
+        // .attr('href','assets/x.svg')
+        // .attr('x',width/2+rect_width/2-40)
+        // .attr('y',height/2-rect_height/2+25)
+        // .attr('height',15)
+        // .attr('cursor','pointer')
+        // .on("click", function() {
+		// 		popup_group.attr('display','none')
+		// 	});
+
+            var popup_group = popup.append('div').attr('class','popups').attr('id',loc[data_map.name]).style('display','none')
+            .style('padding','3%')
+            .style('background-color','#F4F4FF')
+            .style('border-radius','50px')
+            .style('border-style','solid')
+            .style('border-color','white')
+            .style('border-width','medium')
+            // .style('position','absolute')
+            // .style('margin','auto')
+            // .style('top','10%')
+            // .style('left','40%')
+            .style('text-align','center')
+            // var rect_width = 500, rect_height = 200
+    
+            // popup_group
+            // .append('rect')
+            // .attr('x',width/2-rect_width/2)
+            // .attr('y',height/2-rect_height/2)
+            // .attr('height',rect_height)
+            // .attr('width',rect_width)
+            // .attr('fill','#F4F4FF')
+            // .attr('rx',50)
+            // .attr('stroke','white')
+            // .attr('stroke-width',5)
+    
+            
+            popup_group
+            .append('video')
+            .attr('id',loc[data_map.name]+'-video')
+            .attr('height','400vh')
+            .attr('controls','')
+            .append('source')
+            .attr('src','https://datacult.github.io/hopelab-imi-microsite/assets/Atziri.mp4')
+            .attr('type','video/mp4')
+    
+            // var vid = document.getElementById(loc[data_map.name]+'-video').getBBox()
+    
+            // d3.select(loc[data_map.name]+'-vidcontainer')
+            // .attr('left',width/2-vid.width/2)
+    
+            popup_group
+            .append('p')
+            .text(loc[data_map.quote])
+    
+            popup_group
+            // .append('image')
+            // .attr('href','assets/x.svg')
+            // .attr('x',width/2+rect_width/2-40)
+            // .attr('y',height/2-rect_height/2+25)
+            // .attr('height',15)
+            .append('p')
+            .text('X')
+            .attr('cursor','pointer')
+            .on("click", function() {
+                    popup_group.attr('display','none')
+                });
 
         
     });
