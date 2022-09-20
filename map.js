@@ -182,6 +182,13 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('stroke-width',5)
 
         popup_group
+        .append('video')
+        .attr('controls')
+        .append('source')
+        .attr('src','https://datacult.github.io/hopelab-imi-microsite/assets/Atziri.mp4')
+        .attr('type','video/mp4')
+
+        popup_group
         .append('text')
         .attr('x',width/2)
         .attr('y',height/2)
