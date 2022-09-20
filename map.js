@@ -163,6 +163,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('cursor','pointer')
         .on("click", function() {
 				popup_group.style('display','block')
+                svg.attr('opacity',.5)
 			});
 
         var icon_loc = document.getElementById('testimonial'+loc[data_map.state]+i).getBBox();
@@ -201,6 +202,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             popup_group
                 .append('p')
                 .text(loc[data_map.name]+' ('+loc[data_map.pronouns]+')')
+                .style('font-weight',700)
 
             var desc
             (loc[data_map.age] != null) ? desc = (loc[data_map.age]+', '+loc[data_map.location]) : desc = loc[data_map.location]
@@ -221,8 +223,14 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .style('cursor','pointer')
             .on("click", function() {
                     popup_group.style('display','none')
-                    // console.log('close')
+                    svg.attr('opacity',1)
                 });
+
+            // svg
+            // .on("click", function() {
+            //     popup_group.style('display','none')
+            //     svg.attr('opacity',1)
+            // });
 
         
     });
