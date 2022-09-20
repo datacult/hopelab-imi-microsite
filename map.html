@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
         <!-- Google fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +14,10 @@
         <!-- <link href="./css/styles.css" rel="stylesheet"> -->
         <style>
 
-            /* svg {
-                display:block;
-                width:100%;
-                height:100%;
-            } */
+            p {
+                font-family: Quicksand;
+            }
+
             #map-placeholder {
                 position:relative
             }
@@ -53,7 +52,7 @@
             let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/map.csv', d3.autoType)
             let data2 = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/testimonials.csv', d3.autoType)
 
-            let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns',location:'State',video:'video',quote:'quote',source:'source'}
+            let mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns',age: 'Age',location:'State',video:'video',quote:'quote',source:'source'}
 
             let map_vis = map(data, data2, mapping)
         }
