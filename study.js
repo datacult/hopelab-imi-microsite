@@ -176,6 +176,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('y',50)
         .attr('font-size',font_size)
         .style('opacity',1)
+        
 
     study1
         .append('tspan')
@@ -184,7 +185,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .text('The ')
         .append('tspan')
         .text('imi users')
-        .attr('font-weight',700)
+        .attr('font-weight',800)
         .attr('fill','#7638FB')
         .append('tspan')
         .text(' saw a ')
@@ -192,14 +193,18 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('fill','black')
         .append('tspan')
         .text('significant')
-        .attr('font-weight',700)
+        .attr('font-weight',800)
 
     study1
         .append('tspan')
         .attr('class','tspan')
         .attr('x',x_text)
         .attr('dy',line_height)
-        .text('increase in certain coping skills')
+        .text('increase')
+        .attr('font-weight',800)
+        .append('tspan')
+        .text('* in certain coping skills')
+        .attr('font-weight',400)
 
     let study2 =  svg.append('text')
         .attr('class','step2')
@@ -223,12 +228,15 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .text('by ')
         .append('tspan')
         .text('imi users')
-        .attr('font-weight',700)
+        .attr('font-weight',800)
         .attr('fill','#7638FB')
         .append('tspan')
-        .text(' was 4.7 times longer')
+        .text(' was ')
         .attr('font-weight',400)
         .attr('fill','black')
+        .append('tspan')
+        .text('4.7 times longer')
+        .attr('font-weight',800)
     
     study2
         .append('tspan')
@@ -249,7 +257,12 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .append('tspan')
         .attr('class','tspan')
         .attr('x',x_text)
-        .text('78% of participants identified as')
+        .text('78%')
+        .attr('font-weight',800)
+        .append('tspan')
+        .text(' of participants identified as')
+        .attr('font-weight',400)
+        
 
     study3
         .append('tspan')
@@ -270,7 +283,11 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .append('tspan')
         .attr('class','tspan')
         .attr('x',x_text)
-        .text('60% of participants identified as transgender, ')
+        .text('60%')
+        .attr('font-weight',800)
+        .append('tspan')
+        .text(' of participants identified as transgender, ')
+        .attr('font-weight',400)
 
     study4
         .append('tspan')

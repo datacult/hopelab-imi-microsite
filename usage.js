@@ -134,15 +134,15 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     svg.append("defs")
         .append("marker")
         .attr("id", "arrow")
-        .attr("markerWidth", 10)
-        .attr("markerHeight", 10)
-        .attr("refX", 0)
-        .attr("refY", 3)
-        .attr("orient", "auto")
+        .attr("markerWidth", 15)
+        .attr("markerHeight", 15)
+        .attr("refX", 4.45)
+        .attr("refY", 2)
+        .attr("orient", 0)
         .attr("markerUnits", "strokeWidth")
         .append("path")
-        .attr("d", "M0,0 L0,6 L9,3 z")
-        .attr("fill", "#000");
+        .attr("d", "M4.76566 1.12179C4.5704 0.926526 4.25382 0.926526 4.05856 1.12179L0.876576 4.30377C0.681313 4.49903 0.681313 4.81561 0.876576 5.01088C1.07184 5.20614 1.38842 5.20614 1.58368 5.01088L4.41211 2.18245L7.24054 5.01088C7.4358 5.20614 7.75238 5.20614 7.94764 5.01088C8.14291 4.81561 8.14291 4.49903 7.94764 4.30377L4.76566 1.12179ZM4.91211 1.97534L4.91211 1.47534L3.91211 1.47534L3.91211 1.97534L4.91211 1.97534Z")
+        
 
     svg
         .append("line")
@@ -175,7 +175,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .style('font-size',18)
 
         svg.selectAll('#x-axis').style('font-family','Quicksand')
-        .style('font-size',24).style('font-weight',700)
+        .style('font-size',24).attr('font-weight',800)
 
     
     ////////////////////////////////////

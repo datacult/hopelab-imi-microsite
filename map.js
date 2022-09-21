@@ -202,7 +202,8 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             popup_group
                 .append('p')
                 .text(loc[data_map.name]+' ('+loc[data_map.pronouns]+')')
-                .style('font-weight',700)
+                .attr('font-weight',800)
+                .style('margin-bottom',0)
 
             var desc
             (loc[data_map.age] != null) ? desc = (loc[data_map.age]+', '+loc[data_map.location]) : desc = loc[data_map.location]
@@ -210,6 +211,8 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             popup_group
                 .append('p')
                 .text(desc)
+                .style('margin-bottom',0)
+                .style('margin-top',0)
     
             
     
