@@ -19,6 +19,8 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         bottom: 10
     }
 
+    var scl_range = [0,1], line_height = '8%'
+
     // responsive width & height
     var svgWidth = 600//parseInt(d3.select(selector).style('width'), 10)
     var svgHeight = (svgWidth / 2)
@@ -30,6 +32,8 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         top: 180,
         bottom: 250
     } 
+
+    var scl_range = [0,.65], line_height = '4%'
 
     // responsive width & height
     var svgWidth = 400//parseInt(d3.select(selector).style('width'), 10)
@@ -167,7 +171,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
     // });
 
     //text
-    var font_size = 20, x_text = width/2, line_height = '8%';
+    var font_size = 20, x_text = width/2;
 
     let study1 =  svg.append('text')
         .attr('class','step1')
@@ -286,7 +290,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .text('60%')
         .attr('font-weight',800)
         .append('tspan')
-        .text(' of participants identified as transgender, ')
+        .text(' of participants identified as')
         .attr('font-weight',400)
 
     study4
@@ -294,7 +298,14 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','tspan')
         .attr('x',x_text)
         .attr('dy',line_height)
-        .text('gender non-conforming, or gender non-binary')
+        .text(' transgender, gender non-conforming, ')
+
+    study4
+        .append('tspan')
+        .attr('class','tspan')
+        .attr('x',x_text)
+        .attr('dy',line_height)
+        .text('or gender non-binary')
 
     //scroll update function
     function update(val){
@@ -307,7 +318,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
             topicScale
                 .domain([topic[data_map.min],topic[data_map.max]])
-                .range([0,1])
+                .range(scl_range)
                 // .range([0,10])
 
             
@@ -334,7 +345,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
             topicScale
                 .domain([topic[data_map.min],topic[data_map.max]])
-                .range([0,1])
+                .range(scl_range)
 
             left_loc = document.getElementById('left').getBBox();
             right_loc = document.getElementById('right').getBBox();
@@ -357,7 +368,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
             topicScale
                 .domain([topic[data_map.min],topic[data_map.max]])
-                .range([0,1])
+                .range(scl_range)
 
             left_loc = document.getElementById('left').getBBox();
             right_loc = document.getElementById('right').getBBox();
@@ -380,7 +391,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
             topicScale
                 .domain([topic[data_map.min],topic[data_map.max]])
-                .range([0,1])
+                .range(scl_range)
 
             left_loc = document.getElementById('left').getBBox();
             right_loc = document.getElementById('right').getBBox();

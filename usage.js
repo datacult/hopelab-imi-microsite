@@ -22,18 +22,24 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     // responsive width & height
     var svgWidth = 1400//parseInt(d3.select(selector).style('width'), 10)
     var svgHeight = (svgWidth / 2)
+
+    var y_axis_font = 18, x_axis_font = 24, y_axis_shift = -10;
+    var petal_range = [.2,1], explore_shift = 20
     } else {
        // margins for SVG
     var margin = {
-        left: 10,
-        right: 10,
+        left: 20,
+        right: 20,
         top: 10,
-        bottom: 10
+        bottom: 200
     } 
 
     // responsive width & height
-    var svgWidth = 400//parseInt(d3.select(selector).style('width'), 10)
-    var svgHeight = svgWidth/0.8//(svgWidth*1.4)
+    var svgWidth = 500//parseInt(d3.select(selector).style('width'), 10)
+    var svgHeight = svgWidth/1//(svgWidth*1.4)
+
+    var y_axis_font = 16, x_axis_font = 16, y_axis_shift = 40
+    var petal_range = [.075,.7], explore_shift = 8
     }
     
 
@@ -71,7 +77,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .range(["#F3AA5E","#834EF3","#FFE599","#52E0BE"])
 
     const petalScale = d3.scaleLinear()
-        .range([.2,1])
+        .range(petal_range)
         .domain([0,120])
 
     ////////////////////////////////////
@@ -118,7 +124,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             g
                 .attr("class", 'axis')
                 .attr("id", "y-axis")
-                .attr("transform", `translate(-10,0)`)
+                .attr("transform", 'translate('+y_axis_shift+',0)')
                 .transition().duration(1000)
                 .call(yAxis);
         
@@ -127,7 +133,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     
     
         svg.selectAll('#y-axis').style('font-family','Quicksand')
-        .style('font-size',18)
+        .style('font-size',y_axis_font)
         } 
 
 
@@ -172,10 +178,10 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .attr('transform','rotate(-90)')
         .text('Guide Views')
         .style('font-family','Quicksand')
-        .style('font-size',18)
+        .style('font-size',y_axis_font)
 
         svg.selectAll('#x-axis').style('font-family','Quicksand')
-        .style('font-size',24).attr('font-weight',800)
+        .style('font-size',x_axis_font).attr('font-weight',800)
 
     
     ////////////////////////////////////
@@ -336,7 +342,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
-                section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
+                section_group.attr('transform','translate('+(x_group+explore_shift)+' '+(y_group-(group_dim.height+group_dim.y))+')')
 
                 section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Explore" & section_data.size == 2) {
@@ -349,7 +355,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
 
-                section_group.attr('transform','translate('+(x_group+10)+' '+(y_group-5)+')')
+                section_group.attr('transform','translate('+(x_group+explore_shift)+' '+(y_group-5)+')')
 
                 section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             } else if (section == "Affirm" & section_data.size == 2) {
@@ -378,15 +384,6 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
             }
 
-            
-
-
-
-            // console.log(document.getElementById(guide+section+content).transform)
-            // var base_val = document.getElementById(guide+section+content).transform
-            // console.log(base_val.baseVal.getItem(0))
-            // scale_petals(83)
-
         })
 
         function build_paragraph(text,limit,target_id,text_id,x,y,font_size,line_height){
@@ -406,7 +403,14 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             for (let i = 0; i < lines; i++){
 
                 if (words.length > 0){
-                var line_txt = words.splice(0,limit)
+                    var line_txt = words.splice(0,limit)
+                    
+                    if (line_txt.join('').split('').length > (limit*5)){
+                        words.unshift(line_txt.pop())
+                    } else if (line_txt.join('').split('').length < (limit*5-5)){
+                        line_txt.push(words.shift())
+                    }
+
                 target.append('tspan')
                 .attr('class','p-tspan')
                 .attr('x',x)
@@ -417,12 +421,18 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             }
         }
 
-        var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -100
-
+        if (window.outerWidth > 900){
+            var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -100
+            var hover_x = x_group
+        } else {
+            var hover_y = height+50
+            var hover_x = width/2
+        }
+        
         sections.forEach(section => {
             var label = labels.get(guide).get(section).keys()
 
-            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',x_group,
+            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,
             hover_y,18,'4%')
             
             var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 10;
@@ -469,9 +479,6 @@ function update(loc) {
     //filter data
     filter_data(loc)
 
-    // yScale
-    //         .domain([0,Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5])
-    //         .range([height,0])
 
     draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
     
@@ -502,8 +509,10 @@ function update(loc) {
 
                 if (section == 'Support'){
                     section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
-                } else if (section == 'Explore'){
-                    section_group.attr('transform','translate('+(x_group+20)+' '+(y_group-(group_dim.height+group_dim.y))+')')
+                } else if (section == 'Explore' & ['Stress','Stigma'].includes(guide)){
+                    section_group.attr('transform','translate('+(x_group+explore_shift)+' '+(y_group-(group_dim.height+group_dim.y))+')')
+                } else if (section == 'Explore' & ['Gender','Queerness'].includes(guide)){
+                    section_group.attr('transform','translate('+(x_group+explore_shift/2)+' '+(y_group-(group_dim.height+group_dim.y))+')')
                 } else {
                     section_group.attr('transform','translate('+(x_group-group_dim.x+5)+' '+(y_group-group_dim.y+15)+')')
                 }

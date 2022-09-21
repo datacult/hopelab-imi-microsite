@@ -172,15 +172,22 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .attr('x',proj[0]-icon_loc.width/1.5)
             .attr('y',proj[1]-icon_loc.height/1);
 
+            var popup_width, popup_padding, x_top, x_right
+            if (window.outerWidth > 900){
+                popup_width = '40%', popup_padding = '3%', x_top = '5%', x_right = '5%'
+            } else {
+                popup_width = '80%', popup_padding = '7%', x_top = '5%', x_right = '7%'
+            }
+
 
             var popup_group = popup.append('div').attr('class','popups').attr('id',loc[data_map.name]).style('display','none')
-            .style('padding','3%')
+            .style('padding',popup_padding)
             .style('background-color','#F4F4FF')
             .style('border-radius','50px')
             .style('border-style','solid')
             .style('border-color','white')
             .style('border-width','medium')
-            .style('width','40%')
+            .style('width',popup_width)
             .style('text-align','center')
     
     
@@ -220,8 +227,8 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .append('img')
             .attr('src','https://datacult.github.io/hopelab-imi-microsite/assets/x.svg')
             .style('position','absolute')
-            .style('top','5%')
-            .style('right','5%')
+            .style('top',x_top)
+            .style('right',x_right)
             .style('height',15)
             .style('cursor','pointer')
             .on("click", function() {
