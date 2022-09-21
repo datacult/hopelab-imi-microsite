@@ -211,17 +211,18 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     ////////////////////////////////////
     ///////////////draw/////////////////
     ////////////////////////////////////
-    draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
+    var mx = Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5
+    draw(mx)
 
     tickLabels.forEach(guide => {
 
         var guide_group = svg.append('g').attr('class','guide').attr('id',guide)
        
-        guide_group
+        var stem = guide_group
         .append("line")
         .attr('id','stem-'+guide)
-        .attr('y1',yScale(height_data.get(guide)))
-        .attr('y2',yScale(0))
+        .attr('y1',yScale(0))
+        .attr('y2',yScale(height_data.get(guide)))
         .attr('x1',xScale(axisScale(guide)))
         .attr('x2',xScale(axisScale(guide)))
         .attr('stroke','#2A353C')
@@ -485,7 +486,7 @@ function update(loc) {
     tickLabels.forEach(guide =>{
         //resize stems
         svg.select('#stem-'+guide)
-        .attr('y1',yScale(height_data.get(guide)))
+        .attr('y2',yScale(height_data.get(guide)))
 
         var x_group = xScale(axisScale(guide))
         var y_group = (yScale(height_data.get(guide)))

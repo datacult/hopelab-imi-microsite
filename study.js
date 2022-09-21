@@ -197,7 +197,10 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('fill','black')
         .append('tspan')
         .text('significant')
+        .attr('id','hover-star')
         .attr('font-weight',800)
+        .append('tspan')
+        .text('*')
 
     study1
         .append('tspan')
@@ -207,8 +210,61 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .text('increase')
         .attr('font-weight',800)
         .append('tspan')
-        .text('* in certain coping skills')
+        .text(' in certain coping skills')
         .attr('font-weight',400)
+
+    var hover_size = document.getElementById('hover-star').getBBox(), padding = 0;
+
+    let hover_text =  svg.append('text')
+        .attr('class','sig-hover')
+        .attr('id','sig-text')
+        .attr('x',hover_size.x+60)
+        .attr('y',hover_size.y-25)
+        .attr('font-size',9)
+        .attr('display',1)
+
+    hover_text
+        .append('tspan')
+        .attr('class','tspan')
+        .attr('x',hover_size.x+60)
+        .text('Instrumental Support: d=0.24, b=0.29, P=.005')
+
+    hover_text
+        .append('tspan')
+        .attr('class','tspan')
+        .attr('x',hover_size.x+60)
+        .attr('dy','4%')
+        .text('Positive Reframing: d=0.27, b=0.22, P=.02')
+    
+    hover_text
+        .append('tspan')
+        .attr('class','tspan')
+        .attr('x',hover_size.x+60)
+        .attr('dy','4%')
+        .text('Planning: d=0.26, b=0.23, P=.02')
+
+        var hover_box = document.getElementById('sig-text').getBBox(), padding = 5;
+
+        console.log(hover_box)
+
+        svg.append('rect')
+            .attr('class','sig-hover')
+            .attr('id','sig-rect')
+            .attr('x',hover_box.x-padding)
+            .attr('y',hover_box.y-padding)
+            .attr('height',hover_box.height+padding*2)
+            .attr('width',hover_box.width+padding*2)
+            .attr('fill','#F6F6FA')
+            .attr('rx',10)
+            .attr('display','none');
+
+        document.getElementById('study-group').insertBefore(document.getElementById('sig-rect'), document.getElementById('sig-text'));
+    
+        
+        hover_text
+        .attr('display','none')
+
+    
 
     let study2 =  svg.append('text')
         .attr('class','step2')
@@ -307,6 +363,21 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('dy',line_height)
         .text('or gender non-binary')
 
+    var hover_rect = svg.append('rect')
+        .attr('class','p-rect')
+        .attr('id','hover-rect')
+        .attr('x',hover_size.x-padding)
+        .attr('y',hover_size.y-padding)
+        .attr('height',hover_size.height+padding*2)
+        .attr('width',hover_size.width+padding*2)
+        .attr('opacity',0)
+        .attr('display',1)
+        .on("mouseover", function() {
+            d3.selectAll('.sig-hover').attr('display',1)
+        }).on("mouseout", function() {
+            d3.selectAll('.sig-hover').attr('display','none')
+        });
+
     //scroll update function
     function update(val){
 
@@ -333,6 +404,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
                 .attr('fill','#D9D9D9')
 
             study1.style('opacity',1)
+            hover_rect.attr('display',1)
             study2.style('opacity',0)
             study3.style('opacity',0)
             study4.style('opacity',0)
@@ -358,6 +430,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
                 .attr('fill','#D9D9D9')
             
             study1.style('opacity',0)
+            hover_rect.attr('display',"none")
             study2.style('opacity',1)
             study3.style('opacity',0)
             study4.style('opacity',0)
@@ -381,6 +454,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
                 .attr('fill','#D9D9D9')
 
             study1.style('opacity',0)
+            hover_rect.attr('display',"none")
             study2.style('opacity',0)
             study3.style('opacity',1)
             study4.style('opacity',0)
@@ -404,6 +478,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
                 .attr('fill','#D9D9D9')
 
             study1.style('opacity',0)
+            hover_rect.attr('display',"none")
             study2.style('opacity',0)
             study3.style('opacity',0)
             study4.style('opacity',1)
