@@ -20,7 +20,7 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
     }
 
     // responsive width & height
-    var svgWidth = 1400//parseInt(d3.select(selector).style('width'), 10)
+    var svgWidth = 1400
     var svgHeight = (svgWidth / 2)
     } else {
        // margins for SVG
@@ -32,8 +32,8 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
     } 
 
     // responsive width & height
-    var svgWidth = 400//parseInt(d3.select(selector).style('width'), 10)
-    var svgHeight = svgWidth/0.8//(svgWidth*1.4)
+    var svgWidth = 400
+    var svgHeight = svgWidth/0.8
     }
     
 
@@ -49,8 +49,6 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
     d3.select(".map-svg").remove();
 
     const svg = body.append('svg')
-        // .attr('height', svgHeight)
-        // .attr('width', svgWidth)
         .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
         .attr('class', 'map-svg')
         .append('g')
@@ -128,7 +126,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         var group
         (loc[data_map.type] == 'Youth Center') ? group = youth : (loc[data_map.type] == 'Science Advisor') ? group = science : group = community
 
-        // Add the path using this helper function
+        
         group
         .append('circle')
         .attr('class',loc[data_map.state]+'circ')
@@ -140,9 +138,6 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('fill', partnerColorScale(loc[data_map.type]));
         
     });
-
-    // document.getElementById('circles').insertBefore(document.getElementById('Science-Advisor'), document.getElementById('Youth-Center'));
-    // document.getElementById('circles').insertBefore(document.getElementById('Community-Partner'), document.getElementById('Science-Advisor'));
 
     var icon_group = svg.append('g').attr('id','icons')
 
@@ -203,11 +198,13 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             } else {
                 popup_group
                 .append('p')
+                .attr('class','testimonial-text')
                 .text('"'+loc[data_map.quote]+'"')
             }
 
             popup_group
                 .append('p')
+                .attr('class','testimonial-text')
                 .text(loc[data_map.name]+' ('+loc[data_map.pronouns]+')')
                 .attr('font-weight',800)
                 .style('margin-bottom',0)
@@ -217,6 +214,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             
             popup_group
                 .append('p')
+                .attr('class','testimonial-text')
                 .text(desc)
                 .style('margin-bottom',0)
                 .style('margin-top',0)
