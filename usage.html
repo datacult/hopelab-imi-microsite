@@ -14,18 +14,12 @@
         <!-- <link href="./css/styles.css" rel="stylesheet"> -->
         <style>
 
-            path, g, line, circle, text,rect {
+            path, g, line, circle, text, rect {
                 transition: all 1s ease-in-out;
             }
         </style>
     </head>
     <body>  
-        <!-- <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-                refX="0" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" />
-            </marker>
-          </defs> -->
         <select name="location" id="location_select">
             <option value="All">Location</option>
             <option value="California">California</option>
@@ -40,12 +34,10 @@
     <script>
         async function init(){
             
-            // let data = await d3.csv('../data/usage.csv', d3.autoType)
             let data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/usage.csv', d3.autoType)
 
             var usage_select = document.getElementById("location_select");
 
-            // let mapping = {x:'page', y:'views', section:'section', content:'content', state:'state', time:'avg_time', select: 'California'}
             let mapping = {x:'page', y:'views', section:'section', name:'name', content:'content', state:'state', time:'avg_time', select: usage_select.value}
 
             let usage_vis = usage(data, mapping)

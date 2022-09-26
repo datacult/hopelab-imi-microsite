@@ -20,7 +20,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     }
 
     // responsive width & height
-    var svgWidth = 1400//parseInt(d3.select(selector).style('width'), 10)
+    var svgWidth = 1400
     var svgHeight = (svgWidth / 2)
 
     var y_axis_font = 18, x_axis_font = 24, y_axis_shift = -10;
@@ -35,8 +35,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     } 
 
     // responsive width & height
-    var svgWidth = 500//parseInt(d3.select(selector).style('width'), 10)
-    var svgHeight = svgWidth/1//(svgWidth*1.4)
+    var svgWidth = 500
+    var svgHeight = svgWidth/1
 
     var y_axis_font = 16, x_axis_font = 16, y_axis_shift = 40
     var petal_range = [.075,.7], explore_shift = 8
@@ -51,8 +51,6 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     d3.select(".usage-svg").remove();
 
     const svg = body.append('svg')
-        // .attr('height', svgHeight)
-        // .attr('width', svgWidth)
         .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
         .attr('class', 'usage-svg')
         .append('g')
@@ -67,7 +65,6 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     const xScale = d3.scaleLinear()
         .range([0, width])
         .domain([0,100])
-    // .domain(d3.extent(data, d => d[data_map.x]))
 
     const yScale = d3.scaleLinear()
         .range([height, 0]); 
@@ -83,6 +80,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     ////////////////////////////////////
     ///////////////axis/////////////////
     ///////////////////////////////////
+
+    //x-axis
     let tickLabels = ['Stress','Queerness','Gender','Stigma'];
     let tickValues = [20,40,60,80]
 
@@ -92,13 +91,15 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     const xAxis = d3.axisBottom(xScale).ticks(3).tickValues(tickValues).tickFormat((d,i) => tickLabels[i])
 
-    svg.append("g")
+    svg
+        .append("g")
         .attr("class", 'axis')
         .attr("id", "x-axis")
         .attr("transform", `translate(0,${height+10})`)
         .call(xAxis.tickSize(0));
 
-    svg.select('#x-axis .domain')
+    svg
+        .select('#x-axis .domain')
         .attr('stroke',0);
 
     svg
@@ -110,33 +111,37 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .attr('x2',width)
         .attr('stroke','#2A353C');
 
-        const g = svg.append("g");
+    // y-axis
+    const g = svg.append("g");
 
-        function draw(max_val){
+    //update y-scale
+    function draw(max_val){
 
-            var val = Math.ceil(max_val / 100) * 100
+        var val = Math.ceil(max_val / 100) * 100
 
-            yScale
-                .domain([0,val])
+        yScale
+            .domain([0,val])
+
+        const yAxis = d3.axisLeft(yScale).tickSize(0).ticks(1).tickValues([val]);
+
+        g
+            .attr("class", 'axis')
+            .attr("id", "y-axis")
+            .attr("transform", 'translate('+y_axis_shift+',0)')
+            .transition().duration(1000)
+            .call(yAxis);
     
-            const yAxis = d3.axisLeft(yScale).tickSize(0).ticks(1).tickValues([val]);
-
-            g
-                .attr("class", 'axis')
-                .attr("id", "y-axis")
-                .attr("transform", 'translate('+y_axis_shift+',0)')
-                .transition().duration(1000)
-                .call(yAxis);
-        
-            svg.selectAll('#y-axis .domain')
-                .attr('stroke','none');
-    
-    
-        svg.selectAll('#y-axis').style('font-family','Quicksand')
-        .style('font-size',y_axis_font)
-        } 
+        svg.selectAll('#y-axis .domain')
+            .attr('stroke','none');
 
 
+        svg
+            .selectAll('#y-axis')
+            .style('font-family','Quicksand')
+            .style('font-size',y_axis_font)
+    } 
+
+    //add arrow to y-axis
     svg.append("defs")
         .append("marker")
         .attr("id", "arrow")
@@ -150,6 +155,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .attr("d", "M4.76566 1.12179C4.5704 0.926526 4.25382 0.926526 4.05856 1.12179L0.876576 4.30377C0.681313 4.49903 0.681313 4.81561 0.876576 5.01088C1.07184 5.20614 1.38842 5.20614 1.58368 5.01088L4.41211 2.18245L7.24054 5.01088C7.4358 5.20614 7.75238 5.20614 7.94764 5.01088C8.14291 4.81561 8.14291 4.49903 7.94764 4.30377L4.76566 1.12179ZM4.91211 1.97534L4.91211 1.47534L3.91211 1.47534L3.91211 1.97534L4.91211 1.97534Z")
         
 
+    //draw split y-axis w/ label
     svg
         .append("line")
         .attr('id','y-line')
@@ -180,15 +186,20 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .style('font-family','Quicksand')
         .style('font-size',y_axis_font)
 
-        svg.selectAll('#x-axis').style('font-family','Quicksand')
-        .style('font-size',x_axis_font).attr('font-weight',800)
+    svg
+        .selectAll('#x-axis')
+        .style('font-family','Quicksand')
+        .style('font-size',x_axis_font)
+        .attr('font-weight',800)
 
     
     ////////////////////////////////////
     ///////////////data/////////////////
     ////////////////////////////////////
-    var height_data, petal_data, location_data, filtered,labels
 
+    var height_data, petal_data, location_data, filtered,labels;
+
+    //filter for location
     function filter_data(loc) {
      if (loc != 'All') {
         location_data = data.filter(d => d[data_map.state] == loc);
@@ -211,6 +222,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     ////////////////////////////////////
     ///////////////draw/////////////////
     ////////////////////////////////////
+
+    //calculate top of y-axis domain
     var mx = Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5
     draw(mx)
 
@@ -218,15 +231,15 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
         var guide_group = svg.append('g').attr('class','guide').attr('id',guide)
        
-        var stem = guide_group
-        .append("line")
-        .attr('id','stem-'+guide)
-        .attr('y1',yScale(0))
-        .attr('y2',yScale(height_data.get(guide)))
-        .attr('x1',xScale(axisScale(guide)))
-        .attr('x2',xScale(axisScale(guide)))
-        .attr('stroke','#2A353C')
-        .style("stroke-dasharray", ("3, 3"));
+        guide_group
+            .append("line")
+            .attr('id','stem-'+guide)
+            .attr('y1',yScale(0))
+            .attr('y2',yScale(height_data.get(guide)))
+            .attr('x1',xScale(axisScale(guide)))
+            .attr('x2',xScale(axisScale(guide)))
+            .attr('stroke','#2A353C')
+            .style("stroke-dasharray", ("3, 3"));
 
         var x_group = xScale(axisScale(guide))
         var y_group = (yScale(height_data.get(guide)))
@@ -280,8 +293,35 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 return Math.sqrt(ht*ht+wd*wd)/2+5
             }
 
+            // function draw_group(rotate_array, dx, dy, x_shift, y_shift){
+            //     var content
+            //     rotate_array.forEach((rot,i) => {
+            //         content = content_it.next().value
+            //         draw_petals(content,x_translate-x_shift[i], y_translate-y_shift[i],rot)
+            //     })
 
+            //     setTimeout(function(){ 
+            //         section_group.attr('transform','translate('+dx+' '+dy+')')
+
+            //         console.log('function: '+dx)
+            //         console.log('function: '+dy)
+
+            //         section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
+            
+            //         }, 1000);
+                
+            // }
+
+            // var rotate_array, dx, dy, x_shift, y_shift, group_dim;
             if (section == "Support" & section_data.size == 4) {
+                // group_dim = document.getElementById(section+'-'+guide).getBBox();
+                // rotate_array = [0,90,180,270];
+                // dx = x_group-(group_dim.width+group_dim.x)-5;
+                // dy = y_group-group_dim.y+10;
+                // x_shift = [0,shift,shift,0];
+                // y_shift = [0,0,shift,shift];
+
+                // draw_group(rotate_array,dx,dy,x_shift,y_shift)
 
                 var content = content_it.next().value
                 draw_petals(content,x_translate, y_translate,0)
@@ -296,7 +336,6 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 draw_petals(content,x_translate, y_translate-shift,270)
 
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
-                // console.log(group_dim)
 
                 section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
 
@@ -510,6 +549,11 @@ function update(loc) {
 
                 if (section == 'Support'){
                     section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
+                    
+                    if (['Gender','Stigma'].includes(guide)){
+                    console.log((x_group-(group_dim.width+group_dim.x)-5))
+                    console.log((y_group-group_dim.y+10))
+                    }
                 } else if (section == 'Explore' & ['Stress','Stigma'].includes(guide)){
                     section_group.attr('transform','translate('+(x_group+explore_shift)+' '+(y_group-(group_dim.height+group_dim.y))+')')
                 } else if (section == 'Explore' & ['Gender','Queerness'].includes(guide)){
