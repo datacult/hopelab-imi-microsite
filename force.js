@@ -53,11 +53,11 @@ let force = ((selector = '#force') => {
 
     const data = {
         "nodes": [
-            { "id": "1", "group": 1 },
-            { "id": "2", "group": 1 },
-            { "id": "3", "group": 1 },
-            { "id": "4", "group": 1 },
-            { "id": "5", "group": 1 },
+            { "id": "1", "group": 1, "href": "https://hopelab.org/discovery" },
+            { "id": "2", "group": 1, "href": "https://hopelab.org/research/" },
+            { "id": "3", "group": 1, "href": "https://hopelab.org/insights" },
+            { "id": "4", "group": 1, "href": "https://hopelab.org/investments" },
+            { "id": "5", "group": 1, "href": "https://hopelab.org/studio" },
         ],
         "links": [
             { "source": "1", "target": "2", "value": 1 },
@@ -129,7 +129,10 @@ let force = ((selector = '#force') => {
         .attr("stroke-width", 1.5)
         .selectAll(".forcebubbles")
         .data(nodes)
-        .join("svg:image")
+        .join("a")
+        .attr("xlink:href", d => d.href)
+        .attr("target","_blank")
+        .append("svg:image")
         .attr("xlink:href", (d,i) => `/assets/force/${i+1}.svg`)
         .attr("width", 100)
         .attr("height", 100)
