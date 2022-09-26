@@ -195,6 +195,10 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
                 .append('source')
                 .attr('src',loc[data_map.source])
                 .attr('type','video/mp4')
+
+                if(loc[data_map.name] == 'Rose'){
+                    d3.select('#'+loc[data_map.name]+'-video').attr('poster','https://datacult.github.io/hopelab-imi-microsite/assets/Rose.png')
+                }
             } else {
                 popup_group
                 .append('p')
