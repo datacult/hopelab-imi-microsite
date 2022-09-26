@@ -133,7 +133,7 @@ let force = ((selector = '#force') => {
         .attr("xlink:href", d => d.href)
         .attr("target","_blank")
         .append("svg:image")
-        .attr("xlink:href", (d,i) => `/assets/force/${i+1}.svg`)
+        .attr("xlink:href", (d,i) => `https://datacult.github.io/hopelab-imi-microsite/assets/force/${i+1}.svg`)
         .attr("width", 100)
         .attr("height", 100)
         .style("transform", "translate(-50px,-50px)")
