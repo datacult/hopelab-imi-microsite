@@ -1,0 +1,25 @@
+.testimonial-text {
+    font-family: Quicksand;
+}
+
+.popups {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.shape {
+    transition: all 1s ease-in-out;
+}
+
+.step1, .step2, .step3, .step4, #sig-text {
+    font-family: Quicksand;
+    transition: all 1s ease-in-out;
+}
+
+#force {
+    width:100%
+}
+

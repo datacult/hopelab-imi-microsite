@@ -6,17 +6,17 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //////////// svg setup /////////////
     ////////////////////////////////////
 
-    var body = d3.select(selector)
+    var body = d3.select(selector).attr('width','60%')
     body.html("")
 
     if (window.outerWidth > 900){
     
     // margins for SVG
     var margin = {
-        left: 210,
-        right: 210,
-        top: 100,
-        bottom: 100
+        left: 75,
+        right: 50,
+        top: 50,
+        bottom: 50
     }
 
     // responsive width & height

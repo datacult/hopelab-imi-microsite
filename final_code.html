@@ -13,7 +13,7 @@
 
         let map_vis = map(map_data, map_data2, map_mapping)
 
-        let usage = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/usage.csv', d3.autoType)
+        let usage_data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/usage.csv', d3.autoType)
 
         var usage_select = document.getElementById("location_select");
 
