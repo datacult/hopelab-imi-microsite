@@ -148,7 +148,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         // Add the path using this helper function
         icon_group
         .append('image')
-        .attr('href','assets/Testimonial.svg')
+        .attr('href','https://datacult.github.io/hopelab-imi-microsite/assets/Testimonial.svg')
         .attr('class',loc[data_map.state])
         .attr('id','testimonial'+loc[data_map.state]+i)
         .attr('x', proj[0])

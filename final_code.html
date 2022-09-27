@@ -1,0 +1,38 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://datacult.github.io/hopelab-imi-microsite/map.js"></script>
+<script src="https://datacult.github.io/hopelab-imi-microsite/usage.js"></script>
+<script src="https://datacult.github.io/hopelab-imi-microsite/study.js"></script>
+<script src="https://datacult.github.io/hopelab-imi-microsite/force.js"></script>
+<script>
+    async function init(){
+        
+        let map_data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/map.csv', d3.autoType)
+        let map_data2 = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/testimonials.csv', d3.autoType)
+
+        let map_mapping = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns',age: 'Age',location:'State',video:'video',quote:'quote',source:'source'}
+
+        let map_vis = map(map_data, map_data2, map_mapping)
+
+        let usage = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/usage.csv', d3.autoType)
+
+        var usage_select = document.getElementById("location_select");
+
+        let usage_mapping = {x:'page', y:'views', section:'section', name:'name', content:'content', state:'state', time:'avg_time', select: usage_select.value}
+
+        let usage_vis = usage(usage_data, usage_mapping)
+
+        usage_select.addEventListener("change", function() {
+            usage_vis.update(usage_select.value)
+        });
+
+        let study_data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/study.csv', d3.autoType)
+
+        let study_mapping = {topic:'Topic', left:'Left', right:'Right', min:'Min', max:'Max'}
+
+        let study_vis = study(study_data, study_mapping)
+
+        let force_vis = force()
+    }
+    init()
+
+</script>
