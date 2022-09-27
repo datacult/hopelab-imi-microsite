@@ -117,7 +117,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //update y-scale
     function draw(max_val){
 
-        if (max_val > 100) {
+        if (max_val > 200) {
             var val = Math.ceil(max_val / 100) * 100
         } else {
             var val = Math.ceil(max_val / 10) * 10
