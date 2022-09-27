@@ -117,7 +117,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //update y-scale
     function draw(max_val){
 
-        var val = Math.ceil(max_val / 100) * 100
+        if (max_val > 100) {
+            var val = Math.ceil(max_val / 100) * 100
+        } else {
+            var val = Math.ceil(max_val / 10) * 10
+        }
 
         yScale
             .domain([0,val])
@@ -279,13 +283,14 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
             function draw_petals(content, x, y, rotate) {
                 var time = section_data.get(content)
+                var zero_scl = (time > 0) ? petalScale(time) : 0
 
                 section_group
                     .append('path')
                     .attr('id',guide+section+content)
                     .attr('d',petal)
                     .attr('fill',contentColorScale(content))
-                    .attr('transform','translate('+x+' '+y+') rotate('+rotate+') scale('+petalScale(time)+')')
+                    .attr('transform','translate('+x+' '+y+') rotate('+rotate+') scale('+zero_scl+')')
 
             }
 
@@ -497,7 +502,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     function scale_petals(guide, section, content, section_data){
         var time = section_data.get(content)
-        var scl = petalScale(time)
+        var scl = (time > 0) ? petalScale(time) : 0
 
         const svgroot = document.getElementById("usage-group").parentNode;
 
