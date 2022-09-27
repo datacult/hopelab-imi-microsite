@@ -25,8 +25,8 @@ let force = ((selector = '#force') => {
     }
 
     // responsive width & height
-    const svgWidth = 500 // parseInt(d3.select(selector).style('width'), 10)
-    const svgHeight = 500 // parseInt(d3.select(selector).style('height'), 10)
+    const svgWidth = 350 // parseInt(d3.select(selector).style('width'), 10)
+    const svgHeight = 250 // parseInt(d3.select(selector).style('height'), 10)
 
     // helper calculated variables for inner width & height
     const height = svgHeight - margin.top - margin.bottom
