@@ -6,7 +6,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //////////// svg setup /////////////
     ////////////////////////////////////
 
-    var body = d3.select(selector).attr('width','60%')
+    var body = d3.select(selector).style('width','60%')
     body.html("")
 
     if (window.outerWidth > 900){
