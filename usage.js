@@ -23,8 +23,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var svgWidth = 1400
     var svgHeight = (svgWidth / 1.75)
 
-    var y_axis_font = 18, x_axis_font = 24, y_axis_shift = -10;
-    var petal_range = [.2,1], explore_shift = 20
+    var y_axis_font = 26, x_axis_font = 34, y_axis_shift = 4.45;
+    var petal_range = [.3,7], explore_shift = 20
     } else {
        // margins for SVG
     var margin = {
@@ -64,7 +64,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     const xScale = d3.scaleLinear()
         .range([0, width])
-        .domain([0,100])
+        .domain([0,90])
 
     const yScale = d3.scaleLinear()
         .range([height, 0]); 
@@ -75,7 +75,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     const petalScale = d3.scaleLinear()
         .range(petal_range)
-        .domain([0,120])
+        .domain([0,950])
 
     ////////////////////////////////////
     ///////////////axis/////////////////
@@ -142,6 +142,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         svg
             .selectAll('#y-axis')
             .style('font-family','Quicksand')
+            .style('text-anchor','middle')
             .style('font-size',y_axis_font)
     } 
 
@@ -163,7 +164,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     svg
         .append("line")
         .attr('id','y-line')
-        .attr('y1',height*(2/3))
+        .attr('y1',height*(.62))
         .attr('y2',height)
         .attr('x1',0)
         .attr('x2',0)
@@ -172,7 +173,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     svg
         .append("line")
         .attr('id','y-line')
-        .attr('y1',height/3)
+        .attr('y1',height*(.38))
         .attr('y2',20)
         .attr('x1',0)
         .attr('x2',0)
@@ -244,7 +245,9 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             .attr('x1',xScale(axisScale(guide)))
             .attr('x2',xScale(axisScale(guide)))
             .attr('stroke','#2A353C')
-            .style("stroke-dasharray", ("3, 3"));
+            .attr('stroke-width',3.5)
+            .attr('stroke-linecap','round')
+            .style("stroke-dasharray", (".5, 9"));
 
         var x_group = xScale(axisScale(guide))
         var y_group = (yScale(height_data.get(guide)))
@@ -469,7 +472,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         }
 
         if (window.outerWidth > 900){
-            var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -100
+            var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -120
             var hover_x = x_group
         } else {
             var hover_y = height+50
@@ -480,9 +483,9 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             var label = labels.get(guide).get(section).keys()
 
             build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,
-            hover_y,18,'4%')
+            hover_y,26,'3.75%')
             
-            var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 10;
+            var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
     
             guide_group.append('rect')
                 .attr('class','p-rect')
@@ -576,8 +579,8 @@ function update(loc) {
 
 
     sections.forEach(section =>{
-        d3.select("#"+section+'-'+guide+'-name').attr('y',y_group - document.getElementById('Explore-'+guide).getBBox().height -100)
-        var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 10;
+        d3.select("#"+section+'-'+guide+'-name').attr('y',y_group - document.getElementById('Explore-'+guide).getBBox().height -120)
+        var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
     
         d3.select("#"+section+'-'+guide+'-rect')
                 .attr('y',rect_size.y-padding);
