@@ -300,7 +300,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             }
 
             function get_radius(ht,wd){
-                return Math.sqrt(ht*ht+wd*wd)/2+5
+                return Math.sqrt(ht*ht+wd*wd)/2
             }
 
             // function draw_group(rotate_array, dx, dy, x_shift, y_shift){
@@ -436,7 +436,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
         })
 
-        function build_paragraph(text,limit,target_id,text_id,x,y,font_size,line_height){
+        function build_paragraph(text,limit,target_id,text_id,x,font_size,line_height){
             var words = text.split(' ')
             var lines = Math.round(words.length/limit)+1
             var target = d3.select('#'+target_id)
@@ -447,7 +447,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 .attr('font-family','Quicksand')
                 .attr('opacity',0)
                 .attr('x',x)
-                .attr('y',y)
+                .attr('y',0)
                 .attr('font-size',font_size)
 
             for (let i = 0; i < lines; i++){
@@ -461,18 +461,26 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                         line_txt.push(words.shift())
                     }
 
-                target.append('tspan')
-                .attr('class','p-tspan')
-                .attr('x',x)
-                .attr('dy',line_height)
-                .text(line_txt.join(' '))
+                if (i = 0){
+                    target.append('tspan')
+                    .attr('class','p-tspan')
+                    .attr('x',x)
+                    .text(line_txt.join(' '))
+                } else {
+                    target.append('tspan')
+                    .attr('class','p-tspan')
+                    .attr('x',x)
+                    .attr('dy',line_height)
+                    .text(line_txt.join(' '))
+                }
+                
+
                 }
 
             }
         }
 
         if (window.outerWidth > 900){
-            var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height -120
             var hover_x = x_group
         } else {
             var hover_y = height+50
@@ -482,8 +490,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         sections.forEach(section => {
             var label = labels.get(guide).get(section).keys()
 
-            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,
-            hover_y,26,'3.75%')
+            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,26,'3.75%')
             
             var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
     
@@ -491,12 +498,19 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 .attr('class','p-rect')
                 .attr('id',section+'-'+guide+'-rect')
                 .attr('x',rect_size.x-padding)
-                .attr('y',rect_size.y-padding)
+                .attr('y',0)
                 .attr('height',rect_size.height+padding*2)
                 .attr('width',rect_size.width+padding*2)
                 .style('fill','#F6F6FA')
                 .attr('opacity',0)
                 .attr('rx',15);
+
+            if (window.outerWidth > 900){
+                var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height-(rect_size.height+padding*2)-5
+            }
+
+            d3.select('#'+section+'-'+guide+'-name').attr('y',hover_y)
+            d3.select('#'+section+'-'+guide+'-rect').attr('y',hover_y-padding/2)
 
             document.getElementById(guide).insertBefore(document.getElementById(section+'-'+guide+'-rect'), document.getElementById(section+'-'+guide+'-name'));
     
