@@ -237,6 +237,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
        
         guide_group
             .append("line")
+            .attr('class','stem')
             .attr('id','stem-'+guide)
             .attr('y1',yScale(0))
             .attr('y2',yScale(height_data.get(guide)))
@@ -287,6 +288,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
                 section_group
                     .append('path')
+                    .attr('class','petal')
                     .attr('id',guide+section+content)
                     .attr('d',petal)
                     .attr('fill',contentColorScale(content))
