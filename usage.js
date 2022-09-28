@@ -15,13 +15,13 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var margin = {
         left: 75,
         right: 50,
-        top: 50,
-        bottom: 50
+        top: 100,
+        bottom: 130
     }
 
     // responsive width & height
     var svgWidth = 1400
-    var svgHeight = (svgWidth / 1.75)
+    var svgHeight = (svgWidth / 1.75)+130
 
     var y_axis_font = 26, x_axis_font = 34, y_axis_shift = 4.45;
     var petal_range = [.3,7], explore_shift = 20
@@ -480,15 +480,16 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             }
         }
 
-        if (window.outerWidth > 900){
-            var hover_x = x_group
-        } else {
-            var hover_y = height+50
-            var hover_x = width/2
-        }
+        
         
         sections.forEach(section => {
             var label = labels.get(guide).get(section).keys()
+            if (window.outerWidth > 900){
+                var hover_x = x_group
+            } else {
+                var hover_y = height+50
+                var hover_x = width/2
+            }
 
             build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,26,'3.75%')
             
@@ -593,11 +594,20 @@ function update(loc) {
 
 
     sections.forEach(section =>{
-        d3.select("#"+section+'-'+guide+'-name').attr('y',y_group - document.getElementById('Explore-'+guide).getBBox().height -120)
+        
         var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
-    
+
+        if (window.outerWidth > 900){
+            console.log(document.getElementById('Explore-'+guide).getBBox())
+            var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height-(rect_size.height+padding*2)-30
+        } else {
+            var hover_y = height+50 
+        }
+
+        d3.select("#"+section+'-'+guide+'-name').attr('y',hover_y)
+
         d3.select("#"+section+'-'+guide+'-rect')
-                .attr('y',rect_size.y-padding);
+                .attr('y',hover_y-padding/2);
     })
 
     })
