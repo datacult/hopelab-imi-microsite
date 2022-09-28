@@ -21,7 +21,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     // responsive width & height
     var svgWidth = 1400
-    var svgHeight = (svgWidth / 2)
+    var svgHeight = (svgWidth / 1.75)
 
     var y_axis_font = 18, x_axis_font = 24, y_axis_shift = -10;
     var petal_range = [.2,1], explore_shift = 20
