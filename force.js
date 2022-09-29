@@ -138,7 +138,18 @@ let force = ((selector = '#force') => {
         .attr("height", 100)
         .style("transform", "translate(-50px,-50px)")
         .attr("class", "forcebubbles")
-        .call(drag(simulation))
+        .attr('id',d=>'bubble'+d.id)
+        .call(drag(simulation));
+
+        d3.selectAll('.forcebubbles')
+        .on("mouseover", function() {
+                d3.select('#'+this.id).attr('height',101)
+                .attr('width',101)
+            })
+        .on("mouseout", function() {
+            d3.select('#'+this.id).attr('height',100)
+                .attr('width',100)
+            });
 
     simulation.on("tick", () => {
         link
