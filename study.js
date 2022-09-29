@@ -29,8 +29,8 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
     var margin = {
         left: 40,
         right: 40,
-        top: 180,
-        bottom: 250
+        top: 0,
+        bottom: 0
     } 
 
     var scl_range = [0,.65], line_height = '4%'
