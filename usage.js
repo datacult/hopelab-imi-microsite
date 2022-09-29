@@ -235,19 +235,18 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     tickLabels.forEach(guide => {
 
         var guide_group = svg.append('g').attr('class','guide').attr('id',guide)
-       
+
         guide_group
-            .append("line")
+            .append("rect")
             .attr('class','stem')
             .attr('id','stem-'+guide)
-            .attr('y1',yScale(0))
-            .attr('y2',yScale(height_data.get(guide)))
-            .attr('x1',xScale(axisScale(guide)))
-            .attr('x2',xScale(axisScale(guide)))
-            .attr('stroke','#2A353C')
-            .attr('stroke-width',3.5)
-            .attr('stroke-linecap','round')
-            .style("stroke-dasharray", (".5, 9"));
+            .attr('height',yScale(0)-yScale(height_data.get(guide))-3)
+            .attr('y',yScale(height_data.get(guide)))
+            .attr('x',xScale(axisScale(guide)))
+            .attr('rx',1)
+            .attr('width',0.01)
+            .attr('stroke','#CECDFF')
+            .attr('stroke-width',3);
 
         var x_group = xScale(axisScale(guide))
         var y_group = (yScale(height_data.get(guide)))
@@ -303,35 +302,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 return Math.sqrt(ht*ht+wd*wd)/2
             }
 
-            // function draw_group(rotate_array, dx, dy, x_shift, y_shift){
-            //     var content
-            //     rotate_array.forEach((rot,i) => {
-            //         content = content_it.next().value
-            //         draw_petals(content,x_translate-x_shift[i], y_translate-y_shift[i],rot)
-            //     })
-
-            //     setTimeout(function(){ 
-            //         section_group.attr('transform','translate('+dx+' '+dy+')')
-
-            //         console.log('function: '+dx)
-            //         console.log('function: '+dy)
-
-            //         section_circ.attr('transform','translate('+((group_dim.x+group_dim.width/2))+' '+((group_dim.y+group_dim.height/2))+')')
-            
-            //         }, 1000);
-                
-            // }
-
-            // var rotate_array, dx, dy, x_shift, y_shift, group_dim;
             if (section == "Support" & section_data.size == 4) {
-                // group_dim = document.getElementById(section+'-'+guide).getBBox();
-                // rotate_array = [0,90,180,270];
-                // dx = x_group-(group_dim.width+group_dim.x)-5;
-                // dy = y_group-group_dim.y+10;
-                // x_shift = [0,shift,shift,0];
-                // y_shift = [0,0,shift,shift];
-
-                // draw_group(rotate_array,dx,dy,x_shift,y_shift)
 
                 var content = content_it.next().value
                 draw_petals(content,x_translate, y_translate,0)
@@ -548,9 +519,7 @@ function update(loc) {
     draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
     
     tickLabels.forEach(guide =>{
-        //resize stems
-        svg.select('#stem-'+guide)
-        .attr('y2',yScale(height_data.get(guide)))
+        
 
         var x_group = xScale(axisScale(guide))
         var y_group = (yScale(height_data.get(guide)))
@@ -567,6 +536,11 @@ function update(loc) {
             })
             
             setTimeout(function(){ 
+                //resize stems
+                svg.select('#stem-'+guide)
+                .attr('height',yScale(0)-yScale(height_data.get(guide))-3)
+                .attr('y',yScale(height_data.get(guide)))
+
                 //reposition groups
                 var group_dim = document.getElementById(section+'-'+guide).getBBox();
                 var section_group = d3.select('#'+section+'-'+guide)
