@@ -215,8 +215,6 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
 
         var hover_box = document.getElementById('sig-text').getBBox(), padding = 5;
 
-        console.log(hover_box)
-
         svg.append('rect')
             .attr('class','sig-hover')
             .attr('id','sig-rect')
@@ -339,7 +337,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('y',hover_size.y)
         .attr('height',hover_size.height)
         .attr('width',hover_size.width)
-        .attr('opacity',0)
+        .attr('opacity',50)
         .attr('display',1)
         .on("mouseover", function() {
             d3.selectAll('.sig-hover').attr('display',1)
