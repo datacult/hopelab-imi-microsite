@@ -566,7 +566,7 @@ function update(loc) {
                 }, 1000);
         })
 
-
+    setTimeout(function(){
     sections.forEach(section =>{
         
         var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
@@ -583,6 +583,7 @@ function update(loc) {
         d3.select("#"+section+'-'+guide+'-rect')
                 .attr('y',hover_y-padding/2);
     })
+    }, 1000);
 
     })
 }
