@@ -25,15 +25,15 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
     } else {
        // margins for SVG
     var margin = {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
     } 
 
     // responsive width & height
     var svgWidth = 400
-    var svgHeight = svgWidth/0.8
+    var svgHeight = svgWidth/1
     }
     
 
@@ -78,13 +78,13 @@ let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', 
             } else {
              
             // Map and projection
-            var scl = 0.35, mult = 1.55
+            var scl = 0.32, mult = 1.55
             var projection = d3.geoMercator()
             .scale(width / scl / Math.PI)
-            .translate([width*mult+185, height*mult-300]);
+            .translate([width*mult+245, height*mult-200]);
 
             // variables
-            var circ_rad = 2.5, ak_trans = 'translate(175 360)', hi_trans = 'translate(570 -300)', hi_scl = 2, icon_size = 25;
+            var circ_rad = 2.5, ak_trans = 'translate(175 360)', hi_trans = 'translate(670 -260)', hi_scl = 2, icon_size = 25;
         }
 
     // Load external data and boot
