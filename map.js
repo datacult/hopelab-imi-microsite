@@ -104,7 +104,11 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
                 )
                 .style("stroke", "white")
                 .style('stroke-width',1.25)
-                .style('opacity',.8);
+                .style('opacity',.8)
+                .on("click", function() {
+                        d3.selectAll('.popups').style('display','none')
+                        svg.attr('opacity',1)
+                    });
 
         d3.select("#Alaska").attr('transform',ak_trans+" scale("+ak_scl+")")
         d3.select("#Hawaii").attr('transform',hi_trans+" scale("+hi_scl+")")
@@ -135,7 +139,11 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('cy', proj[1])
         .attr('r', circ_rad)
         .attr('opacity',(loc[data_map.type] == 'Youth Center') ? .5 : 1)
-        .attr('fill', partnerColorScale(loc[data_map.type]));
+        .attr('fill', partnerColorScale(loc[data_map.type]))
+        .on("click", function() {
+                d3.selectAll('.popups').style('display','none')
+                svg.attr('opacity',1)
+            });
         
     });
 
@@ -157,6 +165,7 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .attr('width',icon_size*.863)
         .attr('cursor','pointer')
         .on("click", function() {
+                d3.selectAll('.popups').style('display','none')
 				popup_group.style('display','block')
                 svg.attr('opacity',.5)
 			});
@@ -209,8 +218,8 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             popup_group
                 .append('p')
                 .attr('class','testimonial-text')
+                .attr('id','testimonial-name')
                 .text(loc[data_map.name]+' ('+loc[data_map.pronouns]+')')
-                .attr('font-weight',800)
                 .style('margin-bottom',0)
 
             var desc
