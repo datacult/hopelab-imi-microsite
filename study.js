@@ -337,7 +337,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('y',hover_size.y)
         .attr('height',hover_size.height)
         .attr('width',hover_size.width)
-        .attr('opacity',50)
+        .attr('opacity',0)
         .attr('display',1)
         .on("mouseover", function() {
             d3.selectAll('.sig-hover').attr('display',1)
