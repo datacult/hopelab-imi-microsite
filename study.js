@@ -15,15 +15,15 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
     var margin = {
         left: 20,
         right: 20,
-        top: 10,
+        top: 0,
         bottom: 10
     }
 
     var scl_range = [0,1], line_height = '8%'
 
     // responsive width & height
-    var svgWidth = 600
-    var svgHeight = (svgWidth / 2)
+    var svgWidth = 500
+    var svgHeight = (svgWidth / 1.9)
     } else {
        // margins for SVG
     var margin = {
@@ -147,7 +147,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','step1')
         .attr('text-anchor','middle')
         .attr('x',x_text)
-        .attr('y',50)
+        .attr('y',font_size)
         .attr('font-size',font_size)
         .style('opacity',1)
         
@@ -239,7 +239,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','step2')
         .attr('text-anchor','middle')
         .attr('x',x_text)
-        .attr('y',50)
+        .attr('y',font_size)
         .attr('font-size',font_size)
         .style('opacity',0)
 
@@ -278,7 +278,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','step3')
         .attr('text-anchor','middle')
         .attr('x',x_text)
-        .attr('y',50)
+        .attr('y',font_size)
         .attr('font-size',font_size)
         .style('opacity',0)
 
@@ -304,7 +304,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         .attr('class','step4')
         .attr('text-anchor','middle')
         .attr('x',x_text)
-        .attr('y',50)
+        .attr('y',font_size)
         .attr('font-size',font_size)
         .style('opacity',0)
 
@@ -359,11 +359,11 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
             right_scl = topicScale(topic[data_map.right]);
 
             svg.selectAll('#left')
-                .attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(200-left_loc.height*left_scl/2)+') scale('+left_scl+')')
+                .attr('transform','translate('+(width*2/3-left_loc.width*left_scl/2)+' '+(170-left_loc.height*left_scl/2)+') scale('+left_scl+')')
                 .attr('fill',color)
 
             svg.selectAll('#right')
-                .attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(200-right_loc.height*right_scl/2)+') scale('+right_scl+')')
+                .attr('transform','translate('+(width/3-right_loc.width*right_scl/2)+' '+(170-right_loc.height*right_scl/2)+') scale('+right_scl+')')
                 .attr('fill','#D9D9D9')
     }
 
