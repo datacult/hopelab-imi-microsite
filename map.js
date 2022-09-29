@@ -168,7 +168,17 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
                 d3.selectAll('.popups').style('display','none')
 				popup_group.style('display','block')
                 svg.attr('opacity',.5)
-			});
+			})
+        .on("mouseover", function() {
+                d3.selectAll('#testimonial'+loc[data_map.state]+i)
+                .attr('height',icon_size*1.2)
+                .attr('width',(icon_size*.863)*1.2)
+            })
+        .on("mouseout", function() {
+                d3.selectAll('#testimonial'+loc[data_map.state]+i)
+                .attr('height',icon_size)
+                .attr('width',icon_size*.863)
+            });
 
         var icon_loc = document.getElementById('testimonial'+loc[data_map.state]+i).getBBox();
         
