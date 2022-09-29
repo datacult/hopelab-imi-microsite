@@ -6,10 +6,11 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //////////// svg setup /////////////
     ////////////////////////////////////
 
-    var body = d3.select(selector).style('width','60%')
+    var body = d3.select(selector)
     body.html("")
 
     if (window.outerWidth > 900){
+        body.style('width','60%')
     
     // margins for SVG
     var margin = {
@@ -23,7 +24,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var svgWidth = 1400
     var svgHeight = (svgWidth / 1.75)+130
 
-    var y_axis_font = 26, x_axis_font = 34, y_axis_shift = 4.45;
+    var y_axis_font = 26, x_axis_font = 34, x_axis_shift = 35, y_axis_shift = 4.45, buffer = .12;
     var petal_range = [.3,7], explore_shift = 20
     } else {
        // margins for SVG
@@ -38,8 +39,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var svgWidth = 500
     var svgHeight = svgWidth/1
 
-    var y_axis_font = 16, x_axis_font = 16, y_axis_shift = 40
-    var petal_range = [.075,.7], explore_shift = 8
+    var y_axis_font = 16, x_axis_font = 16, x_axis_shift = 10, y_axis_shift = 4.45, buffer = .17
+    var petal_range = [.15,4], explore_shift = 8
     }
     
 
@@ -95,7 +96,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
         .append("g")
         .attr("class", 'axis')
         .attr("id", "x-axis")
-        .attr("transform", `translate(0,${height+10})`)
+        .attr("transform", `translate(0,${height+x_axis_shift})`)
         .call(xAxis.tickSize(0));
 
     svg
@@ -164,7 +165,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     svg
         .append("line")
         .attr('id','y-line')
-        .attr('y1',height*(.62))
+        // .attr('y1',height*(.62))
+        .attr('y1',height*(.5+buffer))
         .attr('y2',height)
         .attr('x1',0)
         .attr('x2',0)
@@ -173,7 +175,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     svg
         .append("line")
         .attr('id','y-line')
-        .attr('y1',height*(.38))
+        .attr('y1',height*(.5-buffer))
         .attr('y2',20)
         .attr('x1',0)
         .attr('x2',0)
@@ -549,10 +551,6 @@ function update(loc) {
                 if (section == 'Support'){
                     section_group.attr('transform','translate('+(x_group-(group_dim.width+group_dim.x)-5)+' '+(y_group-group_dim.y+10)+')')
                     
-                    if (['Gender','Stigma'].includes(guide)){
-                    console.log((x_group-(group_dim.width+group_dim.x)-5))
-                    console.log((y_group-group_dim.y+10))
-                    }
                 } else if (section == 'Explore' & ['Stress','Stigma'].includes(guide)){
                     section_group.attr('transform','translate('+(x_group+explore_shift)+' '+(y_group-(group_dim.height+group_dim.y))+')')
                 } else if (section == 'Explore' & ['Gender','Queerness'].includes(guide)){
@@ -572,7 +570,6 @@ function update(loc) {
         var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
 
         if (window.outerWidth > 900){
-            console.log(document.getElementById('Explore-'+guide).getBBox())
             var hover_y = y_group - document.getElementById('Explore-'+guide).getBBox().height-(rect_size.height+padding*2)-30
         } else {
             var hover_y = height+50 
