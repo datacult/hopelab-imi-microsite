@@ -25,7 +25,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var svgHeight = (svgWidth / 1.75)+130
 
     var y_axis_font = 26, x_axis_font = 34, x_axis_shift = 35, y_axis_shift = 4.45, buffer = .12;
-    var petal_range = [.3,7], explore_shift = 20
+    var petal_range = [.3,7], explore_shift = 20, p_line_height = '3.75%'
     } else {
        // margins for SVG
     var margin = {
@@ -40,7 +40,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     var svgHeight = svgWidth/1
 
     var y_axis_font = 16, x_axis_font = 16, x_axis_shift = 10, y_axis_shift = 4.45, buffer = .17
-    var petal_range = [.15,4], explore_shift = 8
+    var petal_range = [.15,4], explore_shift = 8, p_line_height = '5.75%'
     }
     
 
@@ -464,7 +464,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
                 var hover_x = width/2
             }
 
-            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,26,'3.75%')
+            build_paragraph(label.next().value,4,guide,section+'-'+guide+'-name',hover_x,26,p_line_height)
             
             var rect_size = document.getElementById(section+'-'+guide+'-name').getBBox(), padding = 15;
     
