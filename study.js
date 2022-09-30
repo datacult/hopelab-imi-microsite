@@ -19,7 +19,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         bottom: 10
     }
 
-    var scl_range = [0,1], line_height = '8%'
+    var scl_range = [0,1], line_height = '8%', hover_shift = 0, hover_height = '4%'
 
     // responsive width & height
     var svgWidth = 500
@@ -33,7 +33,7 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
         bottom: 0
     } 
 
-    var scl_range = [0,.65], line_height = '4%'
+    var scl_range = [0,.65], line_height = '4%', hover_shift = 40, hover_height = '2%'
 
     // responsive width & height
     var svgWidth = 400
@@ -188,29 +188,29 @@ let study = ((data, data_map = {topic:'Topic', left:'Left', right:'Right', min:'
     let hover_text =  svg.append('text')
         .attr('class','sig-hover')
         .attr('id','sig-text')
-        .attr('x',hover_size.x+60)
-        .attr('y',hover_size.y-25)
+        .attr('x',hover_size.x+hover_shift)
+        .attr('y',hover_size.y+65)
         .attr('font-size',9)
         .attr('display',1)
 
     hover_text
         .append('tspan')
         .attr('class','tspan')
-        .attr('x',hover_size.x+60)
+        .attr('x',hover_size.x+hover_shift)
         .text('Instrumental Support: d=0.24, b=0.29, P=.005')
 
     hover_text
         .append('tspan')
         .attr('class','tspan')
-        .attr('x',hover_size.x+60)
-        .attr('dy','4%')
+        .attr('x',hover_size.x+hover_shift)
+        .attr('dy',hover_height)
         .text('Positive Reframing: d=0.27, b=0.22, P=.02')
     
     hover_text
         .append('tspan')
         .attr('class','tspan')
-        .attr('x',hover_size.x+60)
-        .attr('dy','4%')
+        .attr('x',hover_size.x+hover_shift)
+        .attr('dy',hover_height)
         .text('Planning: d=0.26, b=0.23, P=.02')
 
         var hover_box = document.getElementById('sig-text').getBBox(), padding = 5;
