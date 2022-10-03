@@ -27,7 +27,7 @@
             
             let logo_data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/logos.csv', d3.autoType)
 
-            let logo_mapping = {org:'organization', url:'url', x:'x', y:'y'}
+            let logo_mapping = {org:'organization', url:'url', x:'x', y:'y',cat:'category'}
 
             let logo_vis = logo(logo_data, logo_mapping)
         }

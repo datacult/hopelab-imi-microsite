@@ -1,6 +1,6 @@
 'use strict'
 
-let map = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y'}, selector = '#logos-placeholder') => {
+let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'category'}, selector = '#logos-placeholder') => {
 
     ////////////////////////////////////
     //////////// svg setup /////////////
@@ -58,6 +58,32 @@ let map = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y'}, sele
     .attr('d','M237.5 9.60989C143.1 8.00989 -37.6905 -21.5567 -60.0238 32.61C-66.8572 69.11 -91.3003 353.21 -94.5003 449.61C-98.5003 570.11 -166.524 756.644 120.976 818.11C265.976 849.11 641.453 833.803 691 532.61C710 417.11 616.476 385.11 593.976 249.11C557.251 27.125 355.5 11.6099 237.5 9.60989Z')
     .attr('fill','#52E0BE')
     .attr('opacity',0.3)
-    .attr('transform','translate(-103,80)')
+    .attr('transform','translate(0,80)')
+
+    svg.append('path')
+    .attr('d','M1.00032 293.218C0.200323 100.018 210.526 135.045 340 118.718C510.5 97.2178 798.5 -55.2821 901.5 21.7179C983.9 83.3179 824.834 343.718 784.5 397.718C711.167 454.218 531.6 566.818 400 565.218C235.5 563.218 2.00032 534.718 1.00032 293.218Z')
+    .attr('fill','#FFE599')
+    .attr('opacity',0.6)
+    .attr('transform','translate(698,0)')
+
+    svg.append('path')
+    .attr('d','M431.5 150.991C555.1 158.591 788.833 54.4912 868 0.491211L854.5 695.491C807.5 639.491 704.5 532.091 514.5 558.491C277 591.491 146.5 567.991 43.9999 509.991C-58.5001 451.991 38.2546 216.098 134.5 150.991C219.5 93.4912 277 141.491 431.5 150.991Z')
+    .attr('fill','#F9CB9C')
+    .attr('transform','translate(656,535)')
+
+    var groups = ['youth','community','academic']
+
+    groups.forEach(d => {
+
+        svg.append('g')
+        .attr('id',d)
+
+    })
+
+    data.forEach(logo => {
+
+        d3.select(logo[data_map.cat])
+        
+    });
 
 })
