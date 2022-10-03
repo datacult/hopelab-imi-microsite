@@ -101,14 +101,14 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
             .attr('x',logo[data_map.x])
             .attr('y',logo[data_map.y])
             .attr('transform','scale('+scl+')')
-            .style('filter','grayscale(100%)')
+            .style('-webkit-filter','grayscale(100%)')
             .on("mouseover", function() {
                 d3.select('#'+this.id)
-                .style('filter','grayscale(0%)')
+                .style('-webkit-filter','grayscale(0%)')
             })
             .on("mouseout", function() {
                 d3.select('#'+this.id)
-                .style('filter','grayscale(100%)')
+                .style('-webkit-filter','grayscale(100%)')
             });
         
     });
