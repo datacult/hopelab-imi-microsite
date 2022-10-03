@@ -81,9 +81,28 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
     })
 
     data.forEach(logo => {
+        console.log(logo)
 
-        d3.select(logo[data_map.cat])
+        d3.select('#'+logo[data_map.cat])
+            .append('image')
+            .attr('id',logo[data_map.org])
+            .attr('href','https://datacult.github.io/hopelab-imi-microsite/assets/logos/'+logo[data_map.url])
+            .attr('x',logo[data_map.x])
+            .attr('y',logo[data_map.y])
+            .style('filter','grayscale(100%)')
+            .on("mouseover", function() {
+                d3.select('#'+this.id)
+                .style('filter','grayscale(0%)')
+            })
+            .on("mouseout", function() {
+                d3.select('#'+this.id)
+                .style('filter','grayscale(100%)')
+            });
         
     });
+
+    svg.select('#youth').attr('transform','translate(85,181)')
+    svg.select('#academic').attr('transform','translate(832,187)')
+    svg.select('#community').attr('transform','translate(749,710)')
 
 })
