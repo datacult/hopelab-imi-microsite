@@ -495,6 +495,8 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
 
     function scale_petals(guide, section, content, section_data){
         var time = section_data.get(content)
+        console.log(section_data)
+        console.log(guide+' '+section+' '+content+' '+time)
         var scl = (time > 0) ? petalScale(time) : 0
 
         const svgroot = document.getElementById("usage-group").parentNode;
@@ -519,7 +521,7 @@ function update(loc) {
 
 
     draw(Math.max(...[...height_data.values()])+Math.max(...[...height_data.values()])/5)
-    
+    console.log(loc)
     tickLabels.forEach(guide =>{
         
 
