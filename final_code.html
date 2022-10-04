@@ -3,6 +3,7 @@
 <script src="https://datacult.github.io/hopelab-imi-microsite/usage.js"></script>
 <script src="https://datacult.github.io/hopelab-imi-microsite/study.js"></script>
 <script src="https://datacult.github.io/hopelab-imi-microsite/force.js"></script>
+<script src="https://datacult.github.io/hopelab-imi-microsite/logos.js"></script>
 <script>
     async function init(){
         
@@ -32,6 +33,12 @@
         let study_vis = study(study_data, study_mapping)
 
         let force_vis = force()
+
+        let logo_data = await d3.csv('https://datacult.github.io/hopelab-imi-microsite/data/logos.csv', d3.autoType)
+
+        let logo_mapping = {org:'organization', url:'url', x:'x', y:'y',cat:'category'}
+
+        let logo_vis = logo(logo_data, logo_mapping)
     }
     init()
 
