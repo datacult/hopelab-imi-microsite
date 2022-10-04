@@ -14,15 +14,15 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     
     // margins for SVG
     var margin = {
-        left: 75,
+        left: 120,
         right: 50,
-        top: 100,
+        top: 200,
         bottom: 130
     }
 
     // responsive width & height
     var svgWidth = 1400
-    var svgHeight = (svgWidth / 1.75)+130
+    var svgHeight = (svgWidth / 1.75)+230
 
     var y_axis_font = 26, x_axis_font = 34, x_axis_shift = 35, y_axis_shift = 4.45, buffer = .12;
     var petal_range = [.3,7], explore_shift = 20, p_line_height = '3.75%'
@@ -118,8 +118,10 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
     //update y-scale
     function draw(max_val){
 
-        if (max_val > 200) {
+        if (max_val > 300) {
             var val = Math.ceil(max_val / 100) * 100
+        } else if (max_val>200){
+            var val = Math.ceil(max_val / 50) * 50
         } else {
             var val = Math.ceil(max_val / 10) * 10
         }
@@ -484,7 +486,7 @@ let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'n
             }
 
             d3.select('#'+section+'-'+guide+'-name').attr('y',hover_y)
-            d3.select('#'+section+'-'+guide+'-rect').attr('y',hover_y-padding/2)
+            d3.select('#'+section+'-'+guide+'-rect').attr('y',hover_y-padding/4)
 
             document.getElementById(guide).insertBefore(document.getElementById(section+'-'+guide+'-rect'), document.getElementById(section+'-'+guide+'-name'));
     
