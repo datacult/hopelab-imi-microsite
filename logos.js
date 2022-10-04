@@ -102,14 +102,17 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
             .attr('y',logo[data_map.y])
             .attr('transform','scale('+scl+')')
             .style('-webkit-filter','grayscale(100%)')
-            .on("mouseover", function() {
-                d3.select('#'+this.id)
-                .style('-webkit-filter','grayscale(0%)')
-            })
-            .on("mouseout", function() {
-                d3.select('#'+this.id)
-                .style('-webkit-filter','grayscale(100%)')
-            });
+            .style('filter','grayscale(100%)')
+            // .on("mouseover", function() {
+            //     d3.select('#'+this.id)
+            //     .style('-webkit-filter','grayscale(0%)')
+            //     .style('filter','grayscale(0%)')
+            // })
+            // .on("mouseout", function() {
+            //     d3.select('#'+this.id)
+            //     .style('-webkit-filter','grayscale(100%)')
+            //     .style('filter','grayscale(100%)')
+            // });
         
     });
 
