@@ -1,0 +1,50 @@
+path,section,Subsection,Type,section_name
+/gender,Gender,,,
+/gender001,Gender,Support,Activity,Understand your own gender identity
+/gender002,Gender,Support,Learn,Understand your own gender identity
+/gender003,Gender,Support,Resource,Understand your own gender identity
+/gender004,Gender,Support,Activity,Understand your own gender identity
+/gender005,Gender,Support,Community,Understand your own gender identity
+/gender006,Gender,Support,Activity,Understand your own gender identity
+/gender007,Gender,Explore,Community,Experiment with your gender expression
+/gender008,Gender,Explore,Activity,Experiment with your gender expression
+/gender009,Gender,Explore,Activity,Experiment with your gender expression
+/gender010,Gender,Affirm,Activity,Share your gender identity and expression with others
+/gender011,Gender,Affirm,Activity,Share your gender identity and expression with others
+/gender012,Gender,Affirm,Resource,Share your gender identity and expression with others
+/stress,Stress,,,
+/stress001,Stress,Support,Activity,Explore how stress shows up in your body
+/stress002,Stress,Support,Learn,Explore how stress shows up in your body
+/stress003,Stress,Support,Community,Explore how stress shows up in your body
+/stress004,Stress,Support,Activity,Explore how stress shows up in your body
+/stress005,Stress,Support,Activity,Explore how stress shows up in your body
+/stress006,Stress,Explore,Learn,Learn about four common stressors for LGBTQ+ communities
+/stress007,Stress,Explore,Activity,Learn about four common stressors for LGBTQ+ communities
+/stress008,Stress,Explore,Resource,Learn about four common stressors for LGBTQ+ communities
+/stress009,Stress,Explore,Activity,Learn about four common stressors for LGBTQ+ communities
+/stress010,Stress,Affirm,Resource,Find a coping skill that works for you
+/stress011,Stress,Affirm,Resource,Find a coping skill that works for you
+/stress012,Stress,Affirm,Resource,Find a coping skill that works for you
+/stress013,Stress,Affirm,Resource,Find a coping skill that works for you
+/queerness,Queerness,,,
+/queer001,Queerness,Support,Activity,Explore the intersections of your own identity
+/queer002,Queerness,Support,Community,Explore the intersections of your own identity
+/queer003,Queerness,Support,Activity,Explore the intersections of your own identity
+/queer004,Queerness,Support,Activity,Explore the intersections of your own identity
+/queer005,Queerness,Explore,Learn,Understand what ‘queerness’ means to you
+/queer006,Queerness,Explore,Activity,Understand what ‘queerness’ means to you
+/queer007,Queerness,Explore,Learn,Understand what ‘queerness’ means to you
+/queer008,Queerness,Affirm,Resource,Share your queerness
+/queer009,Queerness,Affirm,Activity,Share your queerness
+/queer010,Queerness,Affirm,Activity,Share your queerness
+/stigma,Stigma,,,
+/stigma001,Stigma,Support,Learn,Learn what internalized stigma is and how it shows up
+/stigma002,Stigma,Support,Activity,Learn what internalized stigma is and how it shows up
+/stigma003,Stigma,Support,Community,Learn what internalized stigma is and how it shows up
+/stigma004,Stigma,Support,Resource,Learn what internalized stigma is and how it shows up
+/stigma005,Stigma,Explore,Activity,Explore the roots of internalized stigma and what to do about it
+/stigma006,Stigma,Explore,Learn,Explore the roots of internalized stigma and what to do about it
+/stigma007,Stigma,Explore,Resource,Explore the roots of internalized stigma and what to do about it
+/stigma008,Stigma,Explore,Resource,Explore the roots of internalized stigma and what to do about it
+/stigma009,Stigma,Affirm,Learn,Self care as a form of resistance
+/stigma010,Stigma,Affirm,Learn,Self care as a form of resistance
