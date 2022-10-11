@@ -63,7 +63,10 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
 
     // main logos
 
-    svg.append('image')
+    svg.append('a')
+        .attr('href','https://www.lgbtcenters.org/')
+        .attr('target','_blank')
+            .append('image')
             .attr('class','main-logo')
             .attr('id','centerlink')
             .attr('href','https://datacult.github.io/hopelab-imi-microsite/assets/Centerlink.svg')
@@ -80,7 +83,10 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
                 .style('-webkit-filter','grayscale(100%)')
             });
 
-    svg.append('image')
+    svg.append('a')
+        .attr('href','https://itgetsbetter.org/')
+        .attr('target','_blank')
+            .append('image')
             .attr('class','main-logo')
             .attr('id','it-gets-better')
             .attr('href','https://datacult.github.io/hopelab-imi-microsite/assets/ItGetsBetter.svg')

@@ -108,6 +108,9 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
                 .on("click", function() {
                         d3.selectAll('.popups').style('display','none')
                         svg.attr('opacity',1)
+                        $('video').get(0).pause(); 
+                        $('video').get(1).pause(); 
+                        $('video').get(2).pause(); 
                     });
 
         d3.select("#Alaska").attr('transform',ak_trans+" scale("+ak_scl+")")
@@ -143,6 +146,9 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
         .on("click", function() {
                 d3.selectAll('.popups').style('display','none')
                 svg.attr('opacity',1)
+                $('video').get(0).pause(); 
+                $('video').get(1).pause(); 
+                $('video').get(2).pause(); 
             });
         
     });
@@ -255,14 +261,10 @@ d3.json("https://raw.githubusercontent.com/loganpowell/census-geojson/master/Geo
             .on("click", function() {
                     popup_group.style('display','none')
                     svg.attr('opacity',1)
+                    if (loc[data_map.video]==1){
+                     $('#'+loc[data_map.name]+'-video').get(0).pause(); 
+                    }
                 });
-
-            // svg
-            // .on("click", function() {
-            //     popup_group.style('display','none')
-            //     svg.attr('opacity',1)
-            // });
-
         
     });
 
