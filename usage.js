@@ -1,3 +1,6 @@
+// © 2023 Data Culture
+// Released under the ISC license.
+// https://studio.datacult.com/ 
 'use strict'
 
 let usage = ((data, data_map = {x:'page', y:'views', section:'section', name: 'name',content:'content', state:'state', time:'avg_time', select:'All'}, selector = '#usage-placeholder') => {

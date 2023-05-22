@@ -1,3 +1,6 @@
+// © 2023 Data Culture
+// Released under the ISC license.
+// https://studio.datacult.com/ 
 'use strict'
 
 let map = ((data, data2, data_map = {org_name:'Organization.Name', city:'City', state:'State', lat:'lat', long:'lng', type:'Type', name: 'Name', pronouns:'Pronouns', age: 'Age', location:'State',video:'video',quote:'quote',source:'source'}, selector = '#map-placeholder') => {

@@ -51,6 +51,10 @@ let logo = ((data, data_map = {org:'organization', url:'url', x:'x', y:'y',cat:'
     const height = svgHeight - margin.top - margin.bottom
     const width = svgWidth - margin.left - margin.right
 
+// © 2023 Data Culture
+// Released under the ISC license.
+// https://studio.datacult.com/ 
+
     // add SVG
     d3.select(".logos-svg").remove();
 
